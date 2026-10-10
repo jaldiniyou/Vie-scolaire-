@@ -22,13 +22,12 @@ node render.mjs --preview 7.5 20 44   # PNG stills → build/preview/
 Everything is drawn in code (`lib.mjs` = shapes/characters/props, `scenes.mjs` = timeline,
 `audio.mjs` = synthesised SFX + music — no third-party media, nothing to license).
 
-## ⚠️ Brand assets to plug in
+## Brand assets
 
-`tutingo.com` could not be reached from the build environment, so:
-
-- **Logo** — the TutinGo mark shown is a placeholder. Drop the real logo at `assets/logo.png`
-  (transparent PNG) and re-render; it replaces the placeholder everywhere.
-- **Colours** — edit `BRAND` at the top of `lib.mjs` with the colours sampled from the site.
+- **Logo** — `assets/logo.png` is the official TutinGo wordmark (background removed). Replace
+  the file to update it everywhere (reveal, devices, end card).
+- **Colours** — `BRAND` at the top of `lib.mjs`; the purples are sampled from the logo
+  (`#6530DC` → `#7419E0`).
 - **Website screens** — the devices show a schematic UI (shapes/icons only, no invented
   interface text). Add real screenshots to `assets/screens/` and they are used automatically:
   `search.png` (laptop, scene 2), `mobile.png` (phone, scenes 2 & 7), `lesson.png` (video-call screen).

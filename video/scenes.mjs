@@ -3,8 +3,8 @@
 import {
   W, H, BRAND, clamp, lerp, prog, easeOutBack, easeInOutCubic, easeOutCubic, easeOutElastic,
   rr, fillRR, circle, line, withAlpha, pop, rise, text, measure, headline, pill, icons,
-  head, person, blinkAt, talkAt, laptop, phone, desk, bookStack, plant, archWindow, zelligeStar,
-  speechBubble, car, ambient, bg, blob, SKIN,
+  head, person, blinkAt, talkAt, laptop, laptopBack, phone, desk, bookStack, plant, archWindow, zelligeStar,
+  speechBubble, car, ambient, bg, blob, SKIN, POSE,
 } from './lib.mjs';
 
 // Optional real assets (filled in by render.mjs if files exist in ./assets)
@@ -24,9 +24,20 @@ const ADULT = { skin: SKIN[3], hair: '#3A2A20', headStyle: 'curly', top: BRAND.y
 // ---------------------------------------------------------------------------
 export function logo(ctx, x, y, s, t = 0, p = 1) {
   if (ASSETS.logo) {
+    // pop in, then wipe the wordmark left → right
     const img = ASSETS.logo;
     const h = 150 * s, w = (img.width / img.height) * h;
-    withAlpha(ctx, p, () => ctx.drawImage(img, x - w / 2, y - h / 2, w, h));
+    const sp = easeOutBack(clamp(p * 1.4));
+    const wp = easeInOutCubic(clamp(p * 1.25));
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(0.6 + 0.4 * sp, 0.6 + 0.4 * sp);
+    ctx.globalAlpha *= clamp(p * 3);
+    ctx.beginPath();
+    ctx.rect(-w / 2 - 20, -h, (w + 40) * wp, h * 2);
+    ctx.clip();
+    ctx.drawImage(img, -w / 2, -h / 2, w, h);
+    ctx.restore();
     return;
   }
   ctx.save();
@@ -79,9 +90,13 @@ function drawScreenshot(ctx, img, w, h, scroll = 0) {
 function uiTopBar(ctx, w, s) {
   ctx.fillStyle = BRAND.white;
   ctx.fillRect(0, 0, w, 70 * s);
-  fillRR(ctx, 22 * s, 20 * s, 30 * s, 30 * s, 9 * s, BRAND.primary);
-  icons.cap(ctx, 37 * s, 34 * s, 22 * s, BRAND.white);
-  fillRR(ctx, 62 * s, 28 * s, 90 * s, 14 * s, 7 * s, BRAND.ink);
+  if (ASSETS.logo) {
+    const lh = 30 * s, lw = (ASSETS.logo.width / ASSETS.logo.height) * lh;
+    ctx.drawImage(ASSETS.logo, 22 * s, 20 * s, lw, lh);
+  } else {
+    fillRR(ctx, 22 * s, 20 * s, 30 * s, 30 * s, 9 * s, BRAND.primary);
+    fillRR(ctx, 62 * s, 28 * s, 90 * s, 14 * s, 7 * s, BRAND.ink);
+  }
   fillRR(ctx, w - 100 * s, 22 * s, 78 * s, 28 * s, 14 * s, BRAND.primary);
   ctx.fillStyle = '#ECEAF8';
   ctx.fillRect(0, 70 * s, w, 2 * s);
@@ -134,7 +149,7 @@ function uiCall(t) {
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, w, h);
     const s = w / 420;
-    person(ctx, w * 0.5, h * 1.25, 0.55 * s, { ...TUTOR, mood: 0.8, talk: talkAt(t), blink: blinkAt(t, 2), armL: [0.9 + Math.sin(t * 3) * 0.2, 0.9], armR: [-0.2, -0.1] });
+    person(ctx, w * 0.5, h * 1.25, 0.55 * s, { ...TUTOR, mood: 0.8, talk: talkAt(t), blink: blinkAt(t, 2), armL: [1.0 + Math.sin(t * 3) * 0.15, 0.5], armR: POSE.rest });
     fillRR(ctx, w - 120 * s, h - 96 * s, 100 * s, 76 * s, 12 * s, '#2E2A5C');
     head(ctx, w - 70 * s, h - 54 * s, 22 * s, { ...SALMA, style: 'hijab', mood: 0.8, blink: blinkAt(t, 5) });
     circle(ctx, 30 * s, 28 * s, 8 * s, '#FF4D4D');
@@ -196,9 +211,9 @@ function scene1(ctx, t) {
     floor(ctx, 1480);
     plant(ctx, 150, 1480, 1.3);
     person(ctx, 520, 1490, 1.25, {
-      ...YOUSSEF, mood: 0.5, blink: blinkAt(t), look: Math.sin(t * 2) * 0.5,
-      armL: [0.6, 1.9], armR: [-0.2, -0.1],
-      hold: (c, hx, hy) => phone(c, hx + 10, hy - 50, 70, uiSearch(t, 0.4)),
+      ...YOUSSEF, mood: 0.6, blink: blinkAt(t), look: 0.3, lookY: 1, tilt: 0.04,
+      armL: POSE.chest, armR: POSE.restOut,
+      hold: (c, hx, hy) => phone(c, hx + 18, hy - 30, 66, uiSearch(t, 0.4), { rot: -0.12 }),
     });
     // language chips around the head, on each spoken word
     chip(ctx, t, 0.92, 'English', 250, 700, { size: 44, icon: icons.globe });
@@ -336,7 +351,7 @@ function scene2(ctx, t) {
     archWindow(ctx, hx + 95, 1380, 50, 70);
     archWindow(ctx, hx - 95, 1380, 50, 70);
     const wx = lerp(300, 640, prog(t, 10.4, 0.9, (p) => p));
-    person(ctx, wx, 1580, 0.62, { ...TUTOR, walk: t * 9, mood: 0.8, blink: blinkAt(t, 3), armL: [Math.sin(t * 9) * 0.4, 0.2], armR: [-Math.sin(t * 9) * 0.4, -0.2], hold: (c, x, y) => icons.book(c, x, y + 20, 60, BRAND.primary) });
+    person(ctx, wx, 1580, 0.62, { ...TUTOR, walk: t * 9, mood: 0.8, blink: blinkAt(t, 3), armL: [0.1 + Math.max(0, Math.sin(t * 9)) * 0.3, -0.15], armR: [0.1 + Math.max(0, -Math.sin(t * 9)) * 0.3, -0.15], hold: (c, x, y) => icons.book(c, x, y + 20, 60, BRAND.primary) });
     ctx.restore();
     rise(ctx, t, 10.6, () => pill(ctx, 'L-prof yji 7tal darek', W / 2, 1490, { size: 46, bg: BRAND.white, icon: icons.home }));
   }
@@ -368,12 +383,14 @@ function scene3(ctx, t) {
     // tutor explaining at the board
     person(ctx, 330, 1500, 1.05, {
       ...TUTOR, mood: 0.8, talk: talkAt(t, t < 16.9), blink: blinkAt(t, 2),
-      armL: [2.2 + Math.sin(t * 2.5) * 0.15, 0.4], armR: [-0.25, -0.2],
+      armL: [POSE.point[0] + Math.sin(t * 2.5) * 0.12, POSE.point[1]], armR: POSE.rest,
     });
     // student at a desk
+    // student behind her desk, looking over the laptop at the tutor
+    person(ctx, 800, 1225, 0.82, { ...SALMA, sitting: true, mood: 0.75, blink: blinkAt(t, 4), look: -0.9, armL: POSE.type, armR: POSE.type });
     desk(ctx, 800, 1240, 380);
-    person(ctx, 800, 1260, 0.82, { ...SALMA, sitting: true, mood: 0.7, blink: blinkAt(t, 4), look: -0.8, armL: [1.2, 0.5], armR: [-1.0, -0.5] });
-    laptop(ctx, 800, 1238, 200, uiCall(t), { color: '#2E2A5C' });
+    laptopBack(ctx, 820, 1240, 170);
+    bookStack(ctx, 690, 1240, 0.5);
     // floating education elements
     const fl = (k) => Math.sin(t * 2 + k) * 12;
     pop(ctx, t, 12.9, 850, 610 + fl(1), () => {
@@ -531,12 +548,25 @@ function scene6(ctx, t) {
       chip(ctx, t, labelStart, label, x + 235, 1290, { size: 40, bg: labelColor, fg: BRAND.white, icon: iconFn, iconBg: 'rgba(255,255,255,0.25)' });
     };
     panel(50, '#E7E5FF', (x) => {
-      archWindow(ctx, x + 340, 600, 140, 200);
       fillRR(ctx, x, 1130, 470, 300, 0, '#D6D2FA');
+      // live lesson window (what she sees on her screen)
+      fillRR(ctx, x + 85, 560, 300, 196, 22, '#2E2A5C', { blur: 26, y: 10 });
+      ctx.save();
+      rr(ctx, x + 94, 569, 282, 178, 16);
+      ctx.clip();
+      ctx.translate(x + 94, 569);
+      uiCall(t)(ctx, 282, 178);
+      ctx.restore();
+      ctx.beginPath();
+      ctx.moveTo(x + 220, 755);
+      ctx.lineTo(x + 235, 782);
+      ctx.lineTo(x + 250, 755);
+      ctx.fillStyle = '#2E2A5C';
+      ctx.fill();
+      person(ctx, x + 235, 1045, 0.66, { ...SALMA, sitting: true, mood: 0.85, blink: blinkAt(t, 1), lookY: 0.4, armL: POSE.type, armR: POSE.type });
       desk(ctx, x + 235, 1060, 400);
-      laptop(ctx, x + 250, 1058, 250, uiCall(t));
-      person(ctx, x + 120, 1080, 0.72, { ...SALMA, sitting: true, mood: 0.85, blink: blinkAt(t, 1), look: 0.9, armL: [1.3, 0.3], armR: [-1.1, -0.4] });
-      plant(ctx, x + 400, 1060, 0.7);
+      laptopBack(ctx, x + 235, 1060, 170);
+      plant(ctx, x + 400, 1060, 0.6);
     }, 34.0, 'Online', BRAND.primary, icons.laptop);
     panel(560, '#FFE9D6', (x) => {
       archWindow(ctx, x + 120, 600, 140, 200);
@@ -544,14 +574,14 @@ function scene6(ctx, t) {
       fillRR(ctx, x, 1170, 470, 300, 0, '#F3D9C0');
       // sofa
       fillRR(ctx, x + 40, 960, 390, 120, 40, BRAND.teal);
-      person(ctx, x + 330, 1060, 0.7, { ...TUTOR, sitting: true, mood: 0.85, talk: talkAt(t, t < 35.8), blink: blinkAt(t, 3), armL: [1.6 + Math.sin(t * 3) * 0.2, 0.6], armR: [-0.3, -0.2] });
-      person(ctx, x + 140, 1060, 0.62, { ...YOUSSEF, sitting: true, mood: 0.8, blink: blinkAt(t, 6), look: 0.8, armL: [0.9, 0.9], armR: [-0.6, -0.8], hold: (c, hx, hy) => icons.book(c, hx, hy, 80, BRAND.accent) });
+      person(ctx, x + 330, 1060, 0.7, { ...TUTOR, sitting: true, mood: 0.85, talk: talkAt(t, t < 35.8), blink: blinkAt(t, 3), look: -0.8, armL: [1.05 + Math.sin(t * 3) * 0.15, 0.45], armR: POSE.rest });
+      person(ctx, x + 140, 1060, 0.62, { ...YOUSSEF, sitting: true, mood: 0.8, blink: blinkAt(t, 6), look: 0.8, armL: POSE.chest, armR: POSE.chest, hold: (c, hx, hy) => icons.book(c, hx + 22, hy - 4, 84, BRAND.accent) });
     }, 35.2, 'Présentiel', BRAND.accent, icons.home);
     // flexibility icons on the spoken phrase
-    iconBadge(ctx, t, 31.9, 220, 610, 56, BRAND.white, icons.calendar, BRAND.primary);
+    iconBadge(ctx, t, 31.9, 540, 640, 50, BRAND.white, icons.calendar, BRAND.primary);
     iconBadge(ctx, t, 32.6, 860, 610, 56, BRAND.white, (c, x, y, s, col) => icons.clock(c, x, y, s, col, t * 2), BRAND.primary);
-    iconBadge(ctx, t, 33.3, 540, 760, 50, BRAND.accent, icons.pin);
-    iconBadge(ctx, t, 33.8, 540, 900, 50, BRAND.teal, icons.check);
+    iconBadge(ctx, t, 33.3, 540, 780, 50, BRAND.accent, icons.pin);
+    iconBadge(ctx, t, 33.8, 540, 920, 50, BRAND.teal, icons.check);
   });
   // certificate (depends on the programme and the issuing organisation)
   if (toCert > 0) {
@@ -646,7 +676,7 @@ function scene7b(ctx, t) {
   g.addColorStop(1, BRAND.primaryDark);
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);
-  blob(ctx, 200, 400, 500, '#8B85FF', 0.45);
+  blob(ctx, 200, 400, 500, '#9B6BFF', 0.45);
   blob(ctx, 900, 1500, 600, BRAND.pink, 0.25);
   for (let i = 0; i < 18; i++) {
     const a = (i / 18) * Math.PI * 2 + t * 0.1;
@@ -662,31 +692,31 @@ function scene7b(ctx, t) {
   ctx.save();
   ctx.translate(0, (1 - cp) * 400);
   ctx.globalAlpha *= clamp(cp * 1.5);
-  fillRR(ctx, 60, 1330, 960, 40, 20, 'rgba(0,0,0,0.12)');
-  person(ctx, 250, 1350, 0.95, { ...TUTOR, mood: 0.9, blink: blinkAt(t, 2), armL: [2.6 + Math.sin(t * 5) * 0.25, 0.4], armR: [-0.3, -0.2] });
-  person(ctx, 830, 1350, 0.95, { ...SALMA, mood: 0.95, blink: blinkAt(t, 5), armL: [0.3, 0.2], armR: [-2.5 - Math.sin(t * 5 + 1) * 0.25, -0.4] });
-  laptop(ctx, 540, 1330, 330, uiCall(t));
-  bookStack(ctx, 400, 1335, 0.7);
-  phone(ctx, 690, 1240, 90, uiSearch(t, 47.5), { rot: 0.15 });
+  fillRR(ctx, 60, 1385, 960, 36, 18, 'rgba(0,0,0,0.12)');
+  person(ctx, 240, 1400, 0.85, { ...TUTOR, mood: 0.9, blink: blinkAt(t, 2), armL: POSE.wave(t), armR: POSE.rest });
+  person(ctx, 840, 1400, 0.85, { ...SALMA, mood: 0.95, blink: blinkAt(t, 5), armL: POSE.rest, armR: POSE.wave(t + 1) });
+  laptop(ctx, 540, 1388, 300, uiCall(t));
+  bookStack(ctx, 405, 1392, 0.65);
+  phone(ctx, 690, 1300, 86, uiSearch(t, 47.5), { rot: 0.15 });
   ctx.restore();
   // slogan from the voice-over
-  rise(ctx, t, 47.9, () => text(ctx, "T3allem fin ma bghiti", W / 2, 640, { size: 80, weight: 800, color: BRAND.white }));
+  rise(ctx, t, 47.9, () => text(ctx, "T3allem fin ma bghiti", W / 2, 600, { size: 80, weight: 800, color: BRAND.white }));
   rise(ctx, t, 49.4, () => {
-    fillRR(ctx, 120, 710, 840, 100, 50, BRAND.yellow);
-    text(ctx, "w l-prof yji 7tal darek!", W / 2, 762, { size: 58, weight: 800, color: BRAND.ink });
+    fillRR(ctx, 120, 665, 840, 100, 50, BRAND.yellow);
+    text(ctx, "w l-prof yji 7tal darek!", W / 2, 717, { size: 58, weight: 800, color: BRAND.ink });
   });
   // URL — readable, held to the very end
-  pop(ctx, t, 50.4, W / 2, 1460, () => {
-    fillRR(ctx, 170, 1400, 740, 120, 60, BRAND.white, { blur: 40, y: 16, color: 'rgba(0,0,0,0.25)' });
-    icons.globe(ctx, 250, 1460, 52, BRAND.primary);
-    text(ctx, 'www.tutingo.com', 570, 1463, { size: 58, weight: 800, color: BRAND.primary });
+  pop(ctx, t, 50.4, W / 2, 1515, () => {
+    fillRR(ctx, 170, 1455, 740, 120, 60, BRAND.white, { blur: 40, y: 16, color: 'rgba(0,0,0,0.25)' });
+    icons.pin(ctx, 250, 1515, 56, BRAND.primary);
+    text(ctx, 'www.tutingo.com', 570, 1518, { size: 58, weight: 800, color: BRAND.primary });
   });
   // sparkle burst when the URL lands
   for (let i = 0; i < 12; i++) {
     const p = clamp((t - 50.4) / 0.9);
     if (p <= 0 || p >= 1) continue;
     const a = (i / 12) * Math.PI * 2;
-    withAlpha(ctx, 1 - p, () => icons.star(ctx, W / 2 + Math.cos(a) * (200 + p * 260), 1460 + Math.sin(a) * (60 + p * 140), 34, [BRAND.yellow, BRAND.white, BRAND.pink][i % 3]));
+    withAlpha(ctx, 1 - p, () => icons.star(ctx, W / 2 + Math.cos(a) * (200 + p * 260), 1515 + Math.sin(a) * (60 + p * 140), 34, [BRAND.yellow, BRAND.white, BRAND.pink][i % 3]));
   }
 }
 

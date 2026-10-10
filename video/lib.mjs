@@ -5,12 +5,12 @@ export const W = 1080;
 export const H = 1920;
 
 // ---------------------------------------------------------------------------
-// Brand — placeholder palette. tutingo.com was unreachable from the build
-// environment, so replace these with the colours sampled from the real site.
+// Brand — purples sampled from the TutinGo logo (assets/logo.png); the other
+// colours are supporting accents.
 // ---------------------------------------------------------------------------
 export const BRAND = {
-  primary: '#4F46E5',
-  primaryDark: '#3730A3',
+  primary: '#6530DC',
+  primaryDark: '#4A1FB0',
   accent: '#FF8A3D',
   teal: '#14B8A6',
   yellow: '#FFC93C',
@@ -18,7 +18,7 @@ export const BRAND = {
   ink: '#1E1B4B',
   muted: '#6B6894',
   cream: '#FFF8F0',
-  lavender: '#EEF0FF',
+  lavender: '#F1ECFF',
   white: '#FFFFFF',
 };
 
@@ -371,7 +371,7 @@ export const SKIN = ['#F2C9A0', '#D9A273', '#B97A50', '#8D5A3B'];
 
 // Head only, centred at (x,y), radius r. Used by full bodies and by the car window.
 export function head(ctx, x, y, r, o = {}) {
-  const { skin = SKIN[1], hair = '#2B1D16', style = 'short', mood = 0.6, blink = false, talk = 0, look = 0, glasses = false, scarf = BRAND.teal, beard = false } = o;
+  const { skin = SKIN[1], hair = '#2B1D16', style = 'short', mood = 0.6, blink = false, talk = 0, look = 0, lookY = 0, glasses = false, scarf = BRAND.teal, beard = false } = o;
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(o.tilt || 0);
@@ -438,7 +438,7 @@ export function head(ctx, x, y, r, o = {}) {
     ctx.globalAlpha /= 0.85;
   }
   // eyes
-  const ex = r * 0.36, ey = r * 0.05, lx = look * r * 0.1;
+  const ex = r * 0.36, ey = r * 0.05 + lookY * r * 0.12, lx = look * r * 0.1;
   if (blink) {
     line(ctx, -ex - r * 0.1 + lx, ey, -ex + r * 0.1 + lx, ey, r * 0.07, '#231A3A');
     line(ctx, ex - r * 0.1 + lx, ey, ex + r * 0.1 + lx, ey, r * 0.07, '#231A3A');
@@ -471,6 +471,13 @@ export function head(ctx, x, y, r, o = {}) {
     ctx.stroke();
     line(ctx, -ex + r * 0.22, ey, ex - r * 0.22, ey, r * 0.05, '#231A3A');
   }
+  // nose
+  ctx.beginPath();
+  ctx.arc(lx * 0.6, r * 0.27 + lookY * r * 0.06, r * 0.09, Math.PI * 0.15, Math.PI * 0.85);
+  ctx.lineWidth = r * 0.055;
+  ctx.strokeStyle = 'rgba(90,40,30,0.45)';
+  ctx.lineCap = 'round';
+  ctx.stroke();
   // cheeks
   if (mood > 0.3) {
     withAlpha(ctx, 0.35, () => {
@@ -498,9 +505,20 @@ export function head(ctx, x, y, r, o = {}) {
   ctx.restore();
 }
 
-function limb(ctx, x, y, a1, a2, l1, l2, w, color, hand, skin) {
-  const ex = x + Math.sin(a1) * l1, ey = y + Math.cos(a1) * l1;
-  const hx = ex + Math.sin(a1 + a2) * l2, hy = ey + Math.cos(a1 + a2) * l2;
+export function shade(hex, k) {
+  // k < 0 darkens, k > 0 lightens
+  const n = parseInt(hex.slice(1), 16);
+  const f = (c) => Math.round(k < 0 ? c * (1 + k) : c + (255 - c) * k);
+  const r = f(n >> 16), g = f((n >> 8) & 255), b = f(n & 255);
+  return `rgb(${r},${g},${b})`;
+}
+
+// Two-segment arm/leg. `sd` is the side (-1 = screen left, +1 = screen right).
+// a1: upper segment angle from straight down, positive = away from the body (outwards/up).
+// a2: elbow bend relative to a1, negative = towards the body (inwards).
+function limb(ctx, sd, x, y, a1, a2, l1, l2, w, color, handSkin) {
+  const ex = x + sd * Math.sin(a1) * l1, ey = y + Math.cos(a1) * l1;
+  const hx = ex + sd * Math.sin(a1 + a2) * l2, hy = ey + Math.cos(a1 + a2) * l2;
   ctx.beginPath();
   ctx.moveTo(x, y);
   ctx.lineTo(ex, ey);
@@ -510,17 +528,35 @@ function limb(ctx, x, y, a1, a2, l1, l2, w, color, hand, skin) {
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctx.stroke();
-  if (hand) circle(ctx, hx, hy, w * 0.58, skin);
+  if (handSkin) {
+    // cuff + hand
+    circle(ctx, hx, hy, w * 0.52, handSkin);
+    circle(ctx, hx + sd * w * 0.18, hy - w * 0.12, w * 0.24, handSkin);
+  }
   return [hx, hy];
 }
 
-// Full body. (x,y) = point between the feet (standing) or the seat (sitting).
-// arms: angles in radians measured from straight down; positive = towards the character's front/outside.
+// Standard poses (sd-relative angles: [upper, elbow])
+export const POSE = {
+  rest: [0.1, -0.08],
+  restOut: [0.22, -0.15],
+  hip: [0.55, -2.2],          // hand on hip
+  chest: [0.28, -2.25],       // hand in front of the chest (holding phone/book)
+  wave: (t) => [2.55, 0.35 + Math.sin(t * 9) * 0.3],
+  point: [2.0, 0.25],         // pointing up and out (to a board)
+  present: [1.15, 0.45],      // open-palm "presenting" gesture
+  type: [0.35, -1.75],        // forearm forward, hands on a desk/laptop
+};
+
+// Full body, front view. (x,y) = point between the feet (standing) or the seat (sitting).
+// armL = arm on screen-left, armR = arm on screen-right, both as [a1, a2] (see limb()).
 export function person(ctx, x, y, s, o = {}) {
   const {
     skin = SKIN[1], top = BRAND.primary, bottom = BRAND.ink, sitting = false,
-    armL = [0.15, 0.1], armR = [-0.15, -0.1], shoes = '#231A3A', tie = false, blazer = null, hold,
+    armL = POSE.rest, armR = POSE.rest, shoes = '#231A3A', tie = false, blazer = null, hold, holdR,
   } = o;
+  const coat = blazer || top;
+  const sleeve = shade(coat.startsWith('#') ? coat : '#4F46E5', -0.14);
   ctx.save();
   ctx.translate(x, y);
   ctx.scale(s, s);
@@ -528,29 +564,47 @@ export function person(ctx, x, y, s, o = {}) {
   const shY = hipY - 190;
   // legs
   if (sitting) {
-    limb(ctx, -28, 0, Math.PI / 2 - 0.05, -Math.PI / 2 + 0.05, 120, 150, 52, bottom);
-    limb(ctx, 28, 0, Math.PI / 2 + 0.05, -Math.PI / 2 - 0.05, 120, 150, 52, bottom);
-    fillRR(ctx, 70, 128, 80, 32, 16, shoes);
-    fillRR(ctx, 125, 128, 80, 32, 16, shoes);
+    // front view: short foreshortened thighs, shins straight down
+    fillRR(ctx, -78, -30, 156, 70, 30, bottom);
+    fillRR(ctx, -70, 20, 56, 150, 26, bottom);
+    fillRR(ctx, 14, 20, 56, 150, 26, bottom);
+    fillRR(ctx, -84, 152, 74, 30, 15, shoes);
+    fillRR(ctx, 10, 152, 74, 30, 15, shoes);
   } else {
-    const sw = o.walk ? Math.sin(o.walk) * 0.35 : 0;
-    limb(ctx, -30, hipY, sw, 0, 100, 95, 54, bottom);
-    limb(ctx, 30, hipY, -sw, 0, 100, 95, 54, bottom);
-    fillRR(ctx, -70 + Math.sin(sw) * 190, -20, 74, 30, 15, shoes);
-    fillRR(ctx, -4 - Math.sin(sw) * 190, -20, 74, 30, 15, shoes);
+    const sw = o.walk ? Math.sin(o.walk) * 0.28 : 0;
+    const legL = [-34 + Math.sin(sw) * 40, 0], legR = [34 - Math.sin(sw) * 40, 0];
+    line(ctx, -34, hipY + 10, legL[0], -16, 58, bottom);
+    line(ctx, 34, hipY + 10, legR[0], -16, 58, bottom);
+    fillRR(ctx, legL[0] - 46, -26, 74, 30, 15, shoes);
+    fillRR(ctx, legR[0] - 28, -26, 74, 30, 15, shoes);
   }
-  // back arm
-  const shoulderX = 82;
-  limb(ctx, shoulderX, shY + 26, armR[0], armR[1], 105, 100, 40, blazer || top, true, skin);
-  // torso
-  fillRR(ctx, -88, shY, 176, hipY - shY + 18, 60, blazer || top);
+  // torso: shoulders wider than the waist
+  ctx.beginPath();
+  ctx.moveTo(-92, shY + 40);
+  ctx.quadraticCurveTo(-92, shY, -50, shY);
+  ctx.lineTo(50, shY);
+  ctx.quadraticCurveTo(92, shY, 92, shY + 40);
+  ctx.lineTo(80, hipY + 14);
+  ctx.quadraticCurveTo(80, hipY + 26, 66, hipY + 26);
+  ctx.lineTo(-66, hipY + 26);
+  ctx.quadraticCurveTo(-80, hipY + 26, -80, hipY + 14);
+  ctx.closePath();
+  ctx.fillStyle = coat;
+  ctx.fill();
   if (blazer) {
     ctx.beginPath();
-    ctx.moveTo(-34, shY + 2);
-    ctx.lineTo(0, shY + 90);
-    ctx.lineTo(34, shY + 2);
+    ctx.moveTo(-32, shY + 2);
+    ctx.lineTo(0, shY + 96);
+    ctx.lineTo(32, shY + 2);
     ctx.closePath();
     ctx.fillStyle = top;
+    ctx.fill();
+    line(ctx, 0, shY + 110, 0, hipY + 20, 3, shade(blazer, -0.25));
+  } else if (o.headStyle !== 'hijab') {
+    // round neckline
+    ctx.beginPath();
+    ctx.arc(0, shY + 2, 30, 0, Math.PI);
+    ctx.fillStyle = shade(top.startsWith('#') ? top : '#4F46E5', -0.12);
     ctx.fill();
   }
   if (tie) {
@@ -565,15 +619,18 @@ export function person(ctx, x, y, s, o = {}) {
     ctx.fill();
   }
   // neck
-  if (o.headStyle !== 'hijab') fillRR(ctx, -22, shY - 34, 44, 46, 18, skin);
-  // front arm
-  const hand = limb(ctx, -shoulderX, shY + 26, armL[0], armL[1], 105, 100, 40, blazer || top, true, skin);
-  if (hold) hold(ctx, hand[0], hand[1]);
-  // head
-  head(ctx, 0, shY - 92, 78, {
+  if (o.headStyle !== 'hijab') fillRR(ctx, -22, shY - 34, 44, 44, 18, skin);
+  // head first when an arm is raised, so a waving hand stays in front of the hair
+  const drawHead = () => head(ctx, 0, shY - 92, 78, {
     skin, hair: o.hair, style: o.headStyle, mood: o.mood, blink: o.blink, talk: o.talk,
-    look: o.look, glasses: o.glasses, scarf: o.scarf, beard: o.beard, tilt: o.tilt,
+    look: o.look, lookY: o.lookY, glasses: o.glasses, scarf: o.scarf, beard: o.beard, tilt: o.tilt,
   });
+  drawHead();
+  // arms (sleeves a touch darker than the torso so they read against it)
+  const hl = limb(ctx, -1, -80, shY + 30, armL[0], armL[1], 104, 98, 40, sleeve, skin);
+  const hr = limb(ctx, 1, 80, shY + 30, armR[0], armR[1], 104, 98, 40, sleeve, skin);
+  if (hold) hold(ctx, hl[0], hl[1]);
+  if (holdR) holdR(ctx, hr[0], hr[1]);
   ctx.restore();
 }
 
@@ -610,6 +667,15 @@ export function laptop(ctx, x, y, w, screen, { open = 1, color = '#2E2A5C' } = {
   ctx.fillStyle = '#C9C6E8';
   ctx.fill();
   ctx.restore();
+}
+
+// Laptop seen from behind (the person sitting behind it is looking at the screen).
+export function laptopBack(ctx, x, y, w, { color = '#3A3470' } = {}) {
+  const sh = w * 0.62;
+  fillRR(ctx, x - w / 2, y - sh, w, sh, 20, color, { blur: 30, y: 12 });
+  fillRR(ctx, x - w / 2 + 8, y - sh + 8, w - 16, sh - 16, 14, 'rgba(255,255,255,0.06)');
+  icons.pin(ctx, x, y - sh / 2, w * 0.2, 'rgba(255,255,255,0.85)');
+  fillRR(ctx, x - w * 0.56, y - 6, w * 1.12, 16, 8, '#C9C6E8');
 }
 
 export function phone(ctx, x, y, w, screen, { color = '#1F1B45', rot = 0 } = {}) {
