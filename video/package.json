@@ -1,0 +1,12 @@
+{
+  "name": "tutingo-explainer-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "node render.mjs",
+    "preview": "node render.mjs --preview"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "0.1.80"
+  }
+}
