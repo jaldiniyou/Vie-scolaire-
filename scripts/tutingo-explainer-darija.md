@@ -127,3 +127,50 @@
 **المشهد 7**
 > ما تبقاش تسنى! دخل لتوتينغو اليوم وبدا الرحلة ديالك مع اللغات.
 > **توتينغو… تعلم اللغة، من دارك!**
+
+---
+
+## Description du style audio (direction de la voix)
+
+### Profil de la voix
+- **Genre / âge :** voix jeune adulte (25–35 ans), masculine ou féminine.
+- **Accent :** darija marocaine urbaine et neutre (Casablanca / Rabat), compréhensible partout au Maroc. Les mots français (cours, prof, programme, entretien…) se prononcent naturellement, comme dans la vie de tous les jours.
+- **Timbre :** clair, chaleureux, lumineux, sans être trop grave ni trop aigu.
+- **Personnalité :** un grand frère ou une grande sœur bienveillant(e) qui donne un bon conseil, pas un présentateur publicitaire agressif.
+
+### Ton et énergie par scène
+| Scène | Émotion | Énergie | Débit |
+|---|---|---|---|
+| 1 – Problème | Empathie, légère frustration complice | Moyenne-basse | Normal, un peu traînant sur « kay3ayyek » |
+| 2 – Solution | Surprise positive, soulagement | Montée nette, sourire audible | Dynamique, pause avant « Tutingo! » |
+| 3 – Profs | Confiance, sérieux rassurant | Moyenne | Posé, articulé |
+| 4 – Pour qui ? | Interpellation directe, complicité | Moyenne-haute | Questions vivantes, intonation montante |
+| 5 – Avantages | Enthousiasme | Haute | Rythmé, une petite pause entre chaque point |
+| 6 – Étapes | Simplicité, clarté | Moyenne | Lent et net sur « Wa7ed, Jouj, Tlata » |
+| 7 – CTA | Motivation, énergie finale | Maximale mais naturelle | Slogan plus lent, détaché, avec un sourire |
+
+### Rythme et diction
+- **Débit global :** environ 140–150 mots/min, jamais précipité.
+- **Pauses :** 0,3 s après chaque phrase, 0,5–0,7 s entre les scènes, 1 s avant le slogan final.
+- **Accentuation :** appuyer légèrement les mots en **gras** (Tutingo, men darek, bla trafic…).
+- **Sourire audible** dès la scène 2 jusqu'à la fin.
+- Éviter la lecture monotone : intonation naturelle, conversationnelle, comme si on parlait à une seule personne.
+
+### Musique et ambiance sonore
+- **Musique :** corporate / pop acoustique légère, positive et moderne (ukulélé, piano léger, claps doux), 100–115 BPM.
+- **Niveau :** −18 à −22 dB sous la voix (ducking automatique), la voix reste toujours au premier plan.
+- **Scène 1 :** musique plus calme et en retrait, ou SFX discrets (klaxons, horloge tic-tac).
+- **Scène 2 :** léger « whoosh » ou « pop » à l'apparition du logo, puis la musique monte.
+- **Scène 5 :** petit son « ding » ou « click » à chaque icône.
+- **Fin :** la musique monte après le slogan, puis courte signature sonore (jingle) sur le logo.
+
+### Spécifications techniques
+- Format : WAV 48 kHz / 24 bits (master), export MP3 320 kbps.
+- Voix : enregistrement sec (sans réverbération), pièce traitée, loudness final −16 LUFS (web / réseaux sociaux).
+- Livrer la voix seule + le mix final.
+
+### Prompt pour générateur de voix IA (ElevenLabs, etc.)
+> Voix jeune et chaleureuse, darija marocaine naturelle avec un accent urbain neutre (Casablanca). Ton amical et rassurant, comme un ami qui recommande un bon plan. Sourire audible, énergie qui monte progressivement de calme et empathique au début à enthousiaste et motivant à la fin. Débit modéré, diction claire, pauses naturelles entre les phrases. Style conversationnel pour une vidéo explainer publicitaire, pas robotique ni trop commercial.
+
+*English version:*
+> Young, warm voice speaking natural Moroccan Darija with a neutral urban (Casablanca) accent. Friendly, reassuring tone, like a friend recommending something great. Audible smile; energy builds gradually from calm and empathetic at the start to enthusiastic and motivating at the end. Moderate pace, clear diction, natural pauses between sentences. Conversational explainer-ad style — not robotic, not pushy.
