@@ -22,6 +22,12 @@ node render.mjs --preview 7.5 20 44   # PNG stills → build/preview/
 Everything is drawn in code (`lib.mjs` = shapes/characters/props, `scenes.mjs` = timeline,
 `audio.mjs` = synthesised SFX + music — no third-party media, nothing to license).
 
+## On-screen text
+
+All on-screen copy is Darija in Arabic script (font: Cairo, OFL, in `assets/fonts/`), laid out
+right-to-left; brand name, URL, CEFR levels and the acronyms TOEFL / TESOL / CELTA stay in Latin.
+The four languages in scene 1 carry their flags (🇬🇧 🇫🇷 🇪🇸 🇩🇪, drawn in `flag()` in `lib.mjs`).
+
 ## Brand assets
 
 - **Logo** — `assets/logo.png` is the official TutinGo wordmark (background removed). Replace

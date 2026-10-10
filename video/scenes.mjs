@@ -2,7 +2,7 @@
 // voice-over (TIMING.md lists the transcript cue each beat is synced to).
 import {
   W, H, BRAND, clamp, lerp, prog, easeOutBack, easeInOutCubic, easeOutCubic, easeOutElastic,
-  rr, fillRR, circle, line, withAlpha, pop, rise, text, measure, headline, pill, icons,
+  rr, fillRR, circle, line, withAlpha, pop, rise, text, measure, headline, pill, icons, flag,
   head, person, blinkAt, talkAt, laptop, laptopBack, phone, desk, bookStack, plant, archWindow, zelligeStar,
   speechBubble, car, ambient, bg, blob, SKIN, POSE,
 } from './lib.mjs';
@@ -204,8 +204,8 @@ function scene1(ctx, t) {
   withAlpha(ctx, 1 - toTraffic, () => {
     ctx.save();
     ctx.translate(-toTraffic * 300, 0);
-    headline(ctx, t, 0.05, 'Bghiti *tt3allem*', 360, { size: 92 });
-    headline(ctx, t, 0.25, 'lougha jdida?', 470, { size: 92 });
+    headline(ctx, t, 0.05, 'بغيتي *تتعلّم*', 360, { size: 96 });
+    headline(ctx, t, 0.25, 'شي لغة جديدة؟', 480, { size: 96 });
     // room
     archWindow(ctx, 790, 640, 260, 360);
     floor(ctx, 1480);
@@ -216,10 +216,10 @@ function scene1(ctx, t) {
       hold: (c, hx, hy) => phone(c, hx + 18, hy - 30, 66, uiSearch(t, 0.4), { rot: -0.12 }),
     });
     // language chips around the head, on each spoken word
-    chip(ctx, t, 0.92, 'English', 250, 700, { size: 44, icon: icons.globe });
-    chip(ctx, t, 1.6, 'Français', 800, 1080, { size: 44, icon: icons.globe });
-    chip(ctx, t, 2.42, 'Español', 230, 1180, { size: 44, icon: icons.globe });
-    chip(ctx, t, 2.94, 'Deutsch', 820, 1290, { size: 44, icon: icons.globe });
+    chip(ctx, t, 0.92, 'الإنجليزية', 250, 700, { size: 44, flagCode: 'gb' });
+    chip(ctx, t, 1.6, 'الفرنسية', 820, 1080, { size: 44, flagCode: 'fr' });
+    chip(ctx, t, 2.42, 'الإسبانية', 240, 1180, { size: 44, flagCode: 'es' });
+    chip(ctx, t, 2.94, 'الألمانية', 820, 1290, { size: 44, flagCode: 'de' });
     ctx.restore();
   });
 
@@ -251,7 +251,7 @@ function scene1(ctx, t) {
     withAlpha(ctx, 1 - honk, () => {
       for (let k = -1; k <= 1; k++) line(ctx, 250 + honk * 30, 1440 + k * 30, 290 + honk * 40, 1440 + k * 40, 8, BRAND.accent);
     });
-    headline(ctx, t, 3.7, 'Ma 3endekch *l-weqt*?', 380, { size: 82 });
+    headline(ctx, t, 3.7, 'ما عندكش *الوقت؟*', 380, { size: 88 });
     // ticking clock (fast) and a calendar filling up
     iconBadge(ctx, t, 4.0, 260, 700, 120, BRAND.white, (c, x, y, s) => icons.clock(c, x, y, s, BRAND.primary, t * 6), BRAND.primary);
     pop(ctx, t, 4.4, 760, 720, () => {
@@ -265,7 +265,7 @@ function scene1(ctx, t) {
         fillRR(ctx, cx, cy, 52, 44, 10, filled ? [BRAND.pink, BRAND.primary, BRAND.teal][i % 3] : '#EEEAF9');
       }
     });
-    rise(ctx, t, 5.2, () => pill(ctx, 'Z-z7am kay3ayyik…', W / 2, 1000, { size: 46, bg: BRAND.ink, fg: BRAND.white }));
+    rise(ctx, t, 5.2, () => pill(ctx, 'الزحام كيعيّيك…', W / 2, 1000, { size: 46, bg: BRAND.ink, fg: BRAND.white }));
     ctx.restore();
   }
 }
@@ -320,8 +320,8 @@ function scene2(ctx, t) {
     }
     ctx.save();
     ctx.translate(0, -out * 640);
-    chip(ctx, t, 8.9, 'Online', 300, 1240, { size: 46, bg: BRAND.primary, fg: BRAND.white, icon: icons.laptop, iconBg: 'rgba(255,255,255,0.22)' });
-    chip(ctx, t, 9.7, 'Présentiel', 760, 1240, { size: 46, bg: BRAND.accent, fg: BRAND.white, icon: icons.home, iconBg: 'rgba(255,255,255,0.25)' });
+    chip(ctx, t, 8.9, 'أونلاين', 300, 1240, { size: 46, bg: BRAND.primary, fg: BRAND.white, icon: icons.laptop, iconBg: 'rgba(255,255,255,0.22)' });
+    chip(ctx, t, 9.7, 'حضوري', 760, 1240, { size: 46, bg: BRAND.accent, fg: BRAND.white, icon: icons.home, iconBg: 'rgba(255,255,255,0.25)' });
     ctx.restore();
   }
   // the tutor walks to the learner's door
@@ -353,7 +353,7 @@ function scene2(ctx, t) {
     const wx = lerp(300, 640, prog(t, 10.4, 0.9, (p) => p));
     person(ctx, wx, 1580, 0.62, { ...TUTOR, walk: t * 9, mood: 0.8, blink: blinkAt(t, 3), armL: [0.1 + Math.max(0, Math.sin(t * 9)) * 0.3, -0.15], armR: [0.1 + Math.max(0, -Math.sin(t * 9)) * 0.3, -0.15], hold: (c, x, y) => icons.book(c, x, y + 20, 60, BRAND.primary) });
     ctx.restore();
-    rise(ctx, t, 10.6, () => pill(ctx, 'L-prof yji 7tal darek', W / 2, 1490, { size: 46, bg: BRAND.white, icon: icons.home }));
+    rise(ctx, t, 10.6, () => pill(ctx, 'الأستاذ يجي حتى لدارك', W / 2, 1490, { size: 46, bg: BRAND.white, icon: icons.home }));
   }
 }
 
@@ -366,7 +366,7 @@ function scene3(ctx, t) {
   blob(ctx, 300, 900, 520, '#9FEADB', 0.45);
   ambient(ctx, t, [BRAND.teal, BRAND.primary, BRAND.yellow], 3);
   camera(ctx, t, 12.15, 16.95, () => {
-    headline(ctx, t, 12.3, 'Assatida *mou2ahhalin*', 360, { size: 84, mark: '#9FEADB' });
+    headline(ctx, t, 12.3, 'أساتذة *مؤهّلين*', 360, { size: 90, mark: '#9FEADB' });
     // whiteboard
     fillRR(ctx, 120, 560, 520, 340, 26, BRAND.white, { blur: 30, y: 12 });
     fillRR(ctx, 120, 560, 520, 340, 26, 'rgba(79,70,229,0.04)');
@@ -398,19 +398,19 @@ function scene3(ctx, t) {
       text(ctx, 'ABC', 850, 613 + fl(1), { size: 48, weight: 800, color: BRAND.primary });
     });
     // qualified badge on the spoken word
-    chip(ctx, t, 13.14, 'Diplômés · expérimentés', W / 2, 475, { size: 38, icon: icons.check, iconBg: BRAND.teal });
+    chip(ctx, t, 13.14, 'عندهم الديبلومات والخبرة', W / 2, 475, { size: 38, icon: icons.check, iconBg: BRAND.teal });
     // adapted programme: level bars + target
     pop(ctx, t, 14.46, 850, 850, () => {
       fillRR(ctx, 690, 730, 320, 230, 26, BRAND.white, { blur: 26, y: 10 });
-      icons.chartUp(ctx, 730, 770, 36, BRAND.primary);
-      text(ctx, 'Niveau', 762, 772, { size: 30, weight: 800, align: 'left' });
+      icons.chartUp(ctx, 970, 770, 36, BRAND.primary);
+      text(ctx, 'المستوى', 940, 772, { size: 30, weight: 800, align: 'right' });
       [0.45, 0.7, 0.95].forEach((v, i) => {
         const bp = prog(t, 14.7 + i * 0.15, 0.5);
         fillRR(ctx, 720, 820 + i * 44, 260, 24, 12, '#EAE8F8');
         fillRR(ctx, 720, 820 + i * 44, 260 * v * bp, 24, 12, [BRAND.teal, BRAND.primary, BRAND.accent][i]);
       });
     });
-    iconBadge(ctx, t, 15.86, 1000, 730, 46, BRAND.accent, icons.target, BRAND.white);
+    iconBadge(ctx, t, 15.86, 690, 730, 46, BRAND.accent, icons.target, BRAND.white);
   }, 0.05);
 }
 
@@ -418,7 +418,7 @@ function scene3(ctx, t) {
 // SCENE 4 — Learner profiles (16.95 – 22.8)
 // 16.94 "Bghiti t7assen l-anglais dyalek" · 18.96 "tewjed l-examen international" · 20.58 "wla t7assen l-parcours professionnel dyalek"
 // ---------------------------------------------------------------------------
-function profileCard(ctx, t, start, y, color, who, title, sub, iconFn) {
+function profileCard(ctx, t, start, y, color, who, title, sub, iconFn, flagCode) {
   const p = prog(t, start, 0.55, easeOutBack);
   if (p <= 0) return;
   ctx.save();
@@ -432,9 +432,10 @@ function profileCard(ctx, t, start, y, color, who, title, sub, iconFn) {
   ctx.fillRect(90, y, 300, 270);
   person(ctx, 240, y + 520, 0.95, { ...who, mood: 0.75, blink: blinkAt(t, y), talk: 0 });
   ctx.restore();
-  text(ctx, title, 430, y + 100, { size: 46, weight: 800, align: 'left' });
-  text(ctx, sub, 430, y + 165, { size: 36, weight: 600, color: BRAND.muted, align: 'left' });
-  iconBadge(ctx, t, start + 0.35, 920, y + 205, 38, color, iconFn);
+  text(ctx, title, 945, y + 95, { size: 48, weight: 800, align: 'right' });
+  text(ctx, sub, 945, y + 165, { size: 36, weight: 600, color: BRAND.muted, align: 'right' });
+  if (flagCode) pop(ctx, t, start + 0.3, 950 - measure(ctx, title, 48, 800) - 50, y + 95, () => flag(ctx, flagCode, 950 - measure(ctx, title, 48, 800) - 50, y + 95, 28));
+  iconBadge(ctx, t, start + 0.35, 450, y + 210, 36, color, iconFn);
   ctx.restore();
 }
 
@@ -442,10 +443,10 @@ function scene4(ctx, t) {
   bg(ctx, '#FFF4E8', '#FFFFFF');
   blob(ctx, 800, 600, 500, '#FFD3B0', 0.5);
   ambient(ctx, t, [BRAND.accent, BRAND.primary, BRAND.pink], 4);
-  headline(ctx, t, 17.0, 'Chno *bghiti* takhod?', 330, { size: 84, mark: '#FFD3B0' });
-  profileCard(ctx, t, 17.1, 470, BRAND.teal, YOUSSEF, 'English', "T7assen l-anglais dyalek", icons.chartUp);
-  profileCard(ctx, t, 18.95, 790, BRAND.primary, SALMA, 'Examen international', 'Préparation · ex. TOEFL', icons.cap);
-  profileCard(ctx, t, 20.55, 1110, BRAND.accent, PRO, 'Parcours pro', 'Entretien · communication', icons.briefcase);
+  headline(ctx, t, 17.0, 'شنو *بغيتي* تقرا؟', 330, { size: 90, mark: '#FFD3B0' });
+  profileCard(ctx, t, 17.1, 470, BRAND.teal, YOUSSEF, 'الإنجليزية', 'حسّن الإنجليزية ديالك', icons.chartUp, 'gb');
+  profileCard(ctx, t, 18.95, 790, BRAND.primary, SALMA, 'امتحان دولي', 'التحضير، بحال TOEFL', icons.cap);
+  profileCard(ctx, t, 20.55, 1110, BRAND.accent, PRO, 'المسار المهني', 'مقابلة العمل والتواصل', icons.briefcase);
   // floating English vocabulary
   const words = ['Vocabulary', 'Speaking', 'Interview'];
   words.forEach((wd, i) => {
@@ -467,7 +468,7 @@ function scene5(ctx, t) {
   blob(ctx, 540, 1000, 640, '#D5D1FF', 0.5);
   ambient(ctx, t, [BRAND.primary, BRAND.teal, BRAND.yellow], 5);
   pop(ctx, t, 22.8, W / 2, 300, () => logo(ctx, W / 2, 300, 0.6, t, 1));
-  headline(ctx, t, 23.4, 'L-formation li *katnasbek*', 470, { size: 76 });
+  headline(ctx, t, 23.4, 'التكوين لي *كيناسبك*', 470, { size: 84 });
   // levels staircase
   const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
   levels.forEach((lv, i) => {
@@ -501,15 +502,15 @@ function scene5(ctx, t) {
     ctx.globalAlpha *= clamp(p * 1.5);
     fillRR(ctx, x, y, 440, 400, 40, BRAND.white, { blur: 34, y: 14 });
     fillRR(ctx, x, y, 440, 16, 8, color);
-    iconBadge(ctx, t, start + 0.15, x + 80, y + 90, 46, color, iconFn);
-    text(ctx, title, x + 40, y + 180, { size: 40, weight: 800, align: 'left' });
-    text(ctx, sub, x + 40, y + 228, { size: 30, weight: 600, color: BRAND.muted, align: 'left' });
+    iconBadge(ctx, t, start + 0.15, x + 360, y + 90, 46, color, iconFn);
+    text(ctx, title, x + 400, y + 178, { size: 42, weight: 800, align: 'right' });
+    text(ctx, sub, x + 400, y + 232, { size: 32, weight: 600, color: BRAND.muted, align: 'right' });
     tags.forEach(([tag, ts], i) => pop(ctx, t, ts, x + 110 + i * 200, y + 320, () => pill(ctx, tag, x + 110 + i * 200, y + 320, { size: 40, bg: color, fg: BRAND.white, weight: 800, shadow: false })));
     ctx.restore();
   };
-  card(80, 960, 26.2, BRAND.teal, 'Préparation', "aux examens", [['TOEFL', 26.9]], icons.cap);
-  card(560, 960, 27.9, BRAND.accent, 'Formations', "d'enseignants", [['TESOL', 28.4], ['CELTA', 28.9]], icons.book);
-  rise(ctx, t, 29.8, () => pill(ctx, 'Selon les programmes disponibles', W / 2, 1450, { size: 36, bg: BRAND.ink, fg: BRAND.white }));
+  card(560, 960, 26.2, BRAND.teal, 'التحضير', 'للامتحانات', [['TOEFL', 26.9]], icons.cap);
+  card(80, 960, 27.9, BRAND.accent, 'تكوين', 'الأساتذة', [['TESOL', 28.4], ['CELTA', 28.9]], icons.book);
+  rise(ctx, t, 29.8, () => pill(ctx, 'حسب البرامج المتوفّرة', W / 2, 1450, { size: 36, bg: BRAND.ink, fg: BRAND.white }));
 }
 
 // ---------------------------------------------------------------------------
@@ -529,8 +530,8 @@ function scene6(ctx, t) {
     car(ctx, 300 - t * 80 + 2600, 1400, 1, BRAND.pink);
   });
   withAlpha(ctx, 1 - toCert, () => {
-    headline(ctx, t, 31.4, 'F l-mkan w l-weqt', 330, { size: 80 });
-    headline(ctx, t, 31.6, 'li *kaynasbek*', 430, { size: 80 });
+    headline(ctx, t, 31.4, 'فالبلاصة والوقت', 330, { size: 86 });
+    headline(ctx, t, 31.6, 'لي *كيناسبوك*', 435, { size: 86 });
     // split screen panels
     const sp = prog(t, 31.5, 0.7, easeOutCubic);
     const panel = (x, color, fn, labelStart, label, labelColor, iconFn) => {
@@ -567,7 +568,7 @@ function scene6(ctx, t) {
       desk(ctx, x + 235, 1060, 400);
       laptopBack(ctx, x + 235, 1060, 170);
       plant(ctx, x + 400, 1060, 0.6);
-    }, 34.0, 'Online', BRAND.primary, icons.laptop);
+    }, 34.0, 'أونلاين', BRAND.primary, icons.laptop);
     panel(560, '#FFE9D6', (x) => {
       archWindow(ctx, x + 120, 600, 140, 200);
       for (let i = 0; i < 6; i++) zelligeStar(ctx, x + 40 + i * 80, 1140, 22, i % 2 ? BRAND.teal : BRAND.primary, 0);
@@ -576,7 +577,7 @@ function scene6(ctx, t) {
       fillRR(ctx, x + 40, 960, 390, 120, 40, BRAND.teal);
       person(ctx, x + 330, 1060, 0.7, { ...TUTOR, sitting: true, mood: 0.85, talk: talkAt(t, t < 35.8), blink: blinkAt(t, 3), look: -0.8, armL: [1.05 + Math.sin(t * 3) * 0.15, 0.45], armR: POSE.rest });
       person(ctx, x + 140, 1060, 0.62, { ...YOUSSEF, sitting: true, mood: 0.8, blink: blinkAt(t, 6), look: 0.8, armL: POSE.chest, armR: POSE.chest, hold: (c, hx, hy) => icons.book(c, hx + 22, hy - 4, 84, BRAND.accent) });
-    }, 35.2, 'Présentiel', BRAND.accent, icons.home);
+    }, 35.2, 'حضوري', BRAND.accent, icons.home);
     // flexibility icons on the spoken phrase
     iconBadge(ctx, t, 31.9, 540, 640, 50, BRAND.white, icons.calendar, BRAND.primary);
     iconBadge(ctx, t, 32.6, 860, 610, 56, BRAND.white, (c, x, y, s, col) => icons.clock(c, x, y, s, col, t * 2), BRAND.primary);
@@ -588,7 +589,7 @@ function scene6(ctx, t) {
     ctx.save();
     ctx.globalAlpha *= toCert;
     ctx.translate(0, (1 - toCert) * 200);
-    headline(ctx, t, 36.0, 'M3a ba3d l-formations', 360, { size: 74 });
+    headline(ctx, t, 36.0, 'مع بعض التكوينات', 360, { size: 84 });
     const cp = prog(t, 37.9, 0.6, easeOutBack);
     if (cp > 0) {
       ctx.save();
@@ -611,8 +612,8 @@ function scene6(ctx, t) {
       ctx.restore();
     }
     // accurate label — no promise that TutinGo itself awards it
-    rise(ctx, t, 38.3, () => pill(ctx, 'Certificat', W / 2, 1250, { size: 46, bg: BRAND.primary, fg: BRAND.white, icon: icons.check, iconBg: 'rgba(255,255,255,0.25)' }));
-    rise(ctx, t, 39.5, () => pill(ctx, "Délivré par l'organisme concerné", W / 2, 1370, { size: 36, bg: BRAND.white }));
+    rise(ctx, t, 38.3, () => pill(ctx, 'شهادة', W / 2, 1250, { size: 46, bg: BRAND.primary, fg: BRAND.white, icon: icons.check, iconBg: 'rgba(255,255,255,0.25)' }));
+    rise(ctx, t, 39.5, () => pill(ctx, 'كتسلّمها الجهة المعنية', W / 2, 1370, { size: 36, bg: BRAND.white }));
     ctx.restore();
   }
 }
@@ -635,10 +636,10 @@ function scene7a(ctx, t) {
     if (n < url.length || Math.floor(t * 3) % 2) fillRR(ctx, 236 + measure(ctx, url.slice(0, n), 52, 800), 300, 5, 64, 2, BRAND.primary);
   });
   const steps = [
-    [41.9, 'Créer un compte', icons.user, BRAND.primary],
-    [43.6, 'Choisir matière & prof', icons.search, BRAND.teal],
-    [44.6, 'Réserver un créneau', icons.calendar, BRAND.accent],
-    [45.5, 'Online ou à domicile', icons.play, BRAND.pink],
+    [41.9, 'دير حساب', icons.user, BRAND.primary],
+    [43.6, 'ختار المادة والأستاذ', icons.search, BRAND.teal],
+    [44.6, 'حجز الموعد ديالك', icons.calendar, BRAND.accent],
+    [45.5, 'أونلاين ولا فالدار', icons.play, BRAND.pink],
   ];
   // phone with the platform on the right
   const pp = prog(t, 41.8, 0.6, easeOutBack);
@@ -651,19 +652,19 @@ function scene7a(ctx, t) {
     const active = t >= st && (i === steps.length - 1 || t < steps[i + 1][0]);
     rise(ctx, t, st, () => {
       fillRR(ctx, 60, y, 600, 160, 40, active ? BRAND.white : 'rgba(255,255,255,0.75)', active ? { blur: 34, y: 14 } : null);
-      circle(ctx, 150, y + 80, 52, col);
-      text(ctx, String(i + 1), 150, y + 84, { size: 52, weight: 800, color: BRAND.white });
-      text(ctx, label, 225, y + 62, { size: 36, weight: 800, align: 'left' });
-      ic(ctx, 250, y + 115, 40, col);
-      if (t > st + 0.6) icons.check(ctx, 615, y + 115, 32, BRAND.teal);
+      circle(ctx, 570, y + 80, 52, col);
+      text(ctx, String(i + 1), 570, y + 84, { size: 52, weight: 800, color: BRAND.white });
+      text(ctx, label, 495, y + 62, { size: 38, weight: 800, align: 'right' });
+      ic(ctx, 470, y + 115, 40, col);
+      if (t > st + 0.6) icons.check(ctx, 110, y + 80, 34, BRAND.teal);
     }, 40);
   });
   // connector line
   const lp = clamp((t - 42.0) / 4.0);
-  line(ctx, 150, 640, 150, 640 + 600 * lp, 6, 'rgba(79,70,229,0.18)');
+  line(ctx, 570, 640, 570, 640 + 600 * lp, 6, 'rgba(79,70,229,0.18)');
   // goal achieved
   iconBadge(ctx, t, 45.9, 880, 1340, 60, BRAND.accent, icons.target);
-  rise(ctx, t, 45.9, () => pill(ctx, 'Hqqaq l-ahdaf dyalek', 540, 1420, { size: 40, bg: BRAND.ink, fg: BRAND.white }));
+  rise(ctx, t, 45.9, () => pill(ctx, 'حقّق الأهداف ديالك', 540, 1420, { size: 40, bg: BRAND.ink, fg: BRAND.white }));
 }
 
 // ---------------------------------------------------------------------------
@@ -700,10 +701,10 @@ function scene7b(ctx, t) {
   phone(ctx, 690, 1300, 86, uiSearch(t, 47.5), { rot: 0.15 });
   ctx.restore();
   // slogan from the voice-over
-  rise(ctx, t, 47.9, () => text(ctx, "T3allem fin ma bghiti", W / 2, 600, { size: 80, weight: 800, color: BRAND.white }));
+  rise(ctx, t, 47.9, () => text(ctx, 'تعلّم فين ما بغيتي', W / 2, 600, { size: 88, weight: 800, color: BRAND.white }));
   rise(ctx, t, 49.4, () => {
     fillRR(ctx, 120, 665, 840, 100, 50, BRAND.yellow);
-    text(ctx, "w l-prof yji 7tal darek!", W / 2, 717, { size: 58, weight: 800, color: BRAND.ink });
+    text(ctx, 'والأستاذ يجي حتى لدارك!', W / 2, 717, { size: 60, weight: 800, color: BRAND.ink });
   });
   // URL — readable, held to the very end
   pop(ctx, t, 50.4, W / 2, 1515, () => {

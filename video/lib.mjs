@@ -23,6 +23,11 @@ export const BRAND = {
 };
 
 export const FONT = 'Inter';
+export const FONT_AR = 'Cairo';
+export const isAr = (str) => /[\u0600-\u06FF]/.test(str);
+// skia resolves the paragraph as LTR unless told otherwise: wrap Arabic in an
+// RTL embedding so word order, punctuation and Latin acronyms (TOEFL) come out right
+const bidi = (str) => (isAr(str) ? '\u202B' + str + '\u202C' : str);
 
 // ---------------------------------------------------------------------------
 // Timing helpers
@@ -126,60 +131,139 @@ export function rise(ctx, t, start, fn, dist = 60, dur = 0.5) {
 // ---------------------------------------------------------------------------
 // Text
 // ---------------------------------------------------------------------------
-export function font(size, weight = 700) {
-  return `${weight} ${size}px ${FONT}`;
+// Arabic strings use Cairo (with RTL shaping); everything else uses Inter.
+export function font(size, weight = 700, str = '') {
+  return isAr(str) ? `${weight} ${Math.round(size * 1.04)}px ${FONT_AR}` : `${weight} ${size}px ${FONT}`;
 }
 
 export function text(ctx, str, x, y, { size = 48, weight = 700, color = BRAND.ink, align = 'center', baseline = 'middle' } = {}) {
-  ctx.font = font(size, weight);
+  ctx.font = font(size, weight, str);
+  ctx.direction = isAr(str) ? 'rtl' : 'ltr';
   ctx.fillStyle = color;
   ctx.textAlign = align;
   ctx.textBaseline = baseline;
-  ctx.fillText(str, x, y);
+  // Cairo sits a little high on a middle baseline
+  ctx.fillText(bidi(str), x, y + (isAr(str) && baseline === 'middle' ? size * 0.06 : 0));
+  ctx.direction = 'ltr';
 }
 
 export function measure(ctx, str, size, weight = 700) {
-  ctx.font = font(size, weight);
-  return ctx.measureText(str).width;
+  ctx.font = font(size, weight, str);
+  ctx.direction = isAr(str) ? 'rtl' : 'ltr';
+  const w = ctx.measureText(bidi(str)).width;
+  ctx.direction = 'ltr';
+  return w;
 }
 
 // A headline where words wrapped in *stars* get an animated marker highlight.
 export function headline(ctx, t, start, str, y, { size = 76, color = BRAND.ink, mark = BRAND.yellow, markText, x = W / 2 } = {}) {
-  const parts = str.split(/(\*[^*]+\*)/).filter(Boolean).map((s) => ({ s: s.replace(/\*/g, ''), hl: s.startsWith('*') }));
-  const widths = parts.map((p) => measure(ctx, p.s, size, 800));
+  // split into trimmed chunks and space them explicitly (shaping engines trim/move edge spaces)
+  const raw = str.split(/(\*[^*]+\*)/).filter(Boolean);
+  const parts = raw.map((s) => ({ s: s.replace(/\*/g, '').trim(), hl: s.startsWith('*') })).filter((p) => p.s);
+  const gap = size * 0.26;
+  const widths = parts.map((p, i) => measure(ctx, p.s, size, 800) + (i < parts.length - 1 ? gap : 0));
   const total = widths.reduce((a, b) => a + b, 0);
-  let cx = x - total / 2;
+  const rtl = isAr(str);
+  let cx = rtl ? x + total / 2 : x - total / 2;
   const p = clamp((t - start) / 0.5);
   if (p <= 0) return;
   ctx.save();
   ctx.globalAlpha *= easeOutCubic(p);
   ctx.translate(0, (1 - easeOutCubic(p)) * 50);
   parts.forEach((part, i) => {
+    const tw = widths[i] - (i < parts.length - 1 ? gap : 0);
+    const left = rtl ? cx - tw : cx;
     if (part.hl) {
       const mp = prog(t, start + 0.25, 0.45, easeInOutCubic);
-      fillRR(ctx, cx - 10, y - size * 0.55, (widths[i] + 20) * mp, size * 1.12, 18, mark);
+      const mw = (tw + 20) * mp;
+      fillRR(ctx, rtl ? left + tw + 10 - mw : left - 10, y - size * 0.55, mw, size * 1.12, 18, mark);
     }
-    text(ctx, part.s, cx, y + 2, { size, weight: 800, color: part.hl && markText ? markText : color, align: 'left' });
-    cx += widths[i];
+    text(ctx, part.s, left, y + 2, { size, weight: 800, color: part.hl && markText ? markText : color, align: 'left' });
+    cx += rtl ? -widths[i] : widths[i];
   });
   ctx.restore();
 }
 
 // rounded label pill, centred at x,y. icon(ctx, cx, cy, size, color) optional
-export function pill(ctx, str, x, y, { size = 40, bg = BRAND.white, fg = BRAND.ink, icon, iconBg, padX = 34, h, shadow = true, weight = 700 } = {}) {
+export function pill(ctx, str, x, y, { size = 40, bg = BRAND.white, fg = BRAND.ink, icon, iconBg, flagCode, padX = 34, h, shadow = true, weight = 700 } = {}) {
   const tw = measure(ctx, str, size, weight);
   const ph = h || size * 2.1;
-  const iw = icon ? ph * 0.78 + 14 : 0;
+  const hasIcon = icon || flagCode;
+  const iw = hasIcon ? ph * 0.78 + 14 : 0;
   const pw = tw + padX * 2 + iw;
   const px = x - pw / 2, py = y - ph / 2;
+  const rtl = isAr(str);
   fillRR(ctx, px, py, pw, ph, ph / 2, bg, shadow ? { blur: 24, y: 10 } : null);
-  if (icon) {
-    const ir = ph * 0.39;
-    circle(ctx, px + padX * 0.5 + ir, y, ir, iconBg || BRAND.lavender);
-    icon(ctx, px + padX * 0.5 + ir, y, ir * 1.1, fg === BRAND.white ? BRAND.white : BRAND.primary);
+  const ir = ph * 0.39;
+  const icx = rtl ? px + pw - padX * 0.5 - ir : px + padX * 0.5 + ir;
+  if (flagCode) {
+    flag(ctx, flagCode, icx, y, ir);
+  } else if (icon) {
+    circle(ctx, icx, y, ir, iconBg || BRAND.lavender);
+    icon(ctx, icx, y, ir * 1.1, fg === BRAND.white ? BRAND.white : BRAND.primary);
   }
-  text(ctx, str, px + padX + iw + tw / 2 - (icon ? padX * 0.25 : 0), y + 1, { size, weight, color: fg });
+  const tx = rtl ? px + padX + tw / 2 + (hasIcon ? padX * 0.25 : 0) : px + padX + iw + tw / 2 - (hasIcon ? padX * 0.25 : 0);
+  text(ctx, str, tx, y + 1, { size, weight, color: fg });
   return pw;
+}
+
+// Round flag badge (radius r) centred at x,y: 'gb' | 'fr' | 'es' | 'de' | 'ma'
+export function flag(ctx, code, x, y, r) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.clip();
+  const L = x - r, T = y - r, S = r * 2;
+  const bands = (cols, vertical) => cols.forEach((c, i) => {
+    ctx.fillStyle = c;
+    if (vertical) ctx.fillRect(L + (S * i) / cols.length, T, S / cols.length + 1, S);
+    else ctx.fillRect(L, T + (S * i) / cols.length, S, S / cols.length + 1);
+  });
+  if (code === 'fr') bands(['#0055A4', '#FFFFFF', '#EF4135'], true);
+  else if (code === 'de') bands(['#000000', '#DD0000', '#FFCE00'], false);
+  else if (code === 'es') {
+    ctx.fillStyle = '#AA151B';
+    ctx.fillRect(L, T, S, S);
+    ctx.fillStyle = '#F1BF00';
+    ctx.fillRect(L, T + S / 4, S, S / 2);
+    // simplified coat of arms
+    fillRR(ctx, x - r * 0.62, y - r * 0.26, r * 0.36, r * 0.48, r * 0.08, '#AA151B');
+    fillRR(ctx, x - r * 0.56, y - r * 0.38, r * 0.24, r * 0.12, r * 0.04, '#C8A200');
+  } else if (code === 'gb') {
+    ctx.fillStyle = '#012169';
+    ctx.fillRect(L, T, S, S);
+    const diag = (w, c) => {
+      line(ctx, L, T, L + S, T + S, w, c, 'butt');
+      line(ctx, L + S, T, L, T + S, w, c, 'butt');
+    };
+    diag(S * 0.2, '#FFFFFF');
+    diag(S * 0.07, '#C8102E');
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(x - S * 0.17, T, S * 0.34, S);
+    ctx.fillRect(L, y - S * 0.17, S, S * 0.34);
+    ctx.fillStyle = '#C8102E';
+    ctx.fillRect(x - S * 0.1, T, S * 0.2, S);
+    ctx.fillRect(L, y - S * 0.1, S, S * 0.2);
+  } else if (code === 'ma') {
+    ctx.fillStyle = '#C1272D';
+    ctx.fillRect(L, T, S, S);
+    ctx.beginPath();
+    for (let i = 0; i <= 5; i++) {
+      const a = -Math.PI / 2 + (i * 4 * Math.PI) / 5;
+      ctx.lineTo(x + Math.cos(a) * r * 0.5, y + Math.sin(a) * r * 0.5);
+    }
+    ctx.lineWidth = r * 0.09;
+    ctx.strokeStyle = '#006233';
+    ctx.lineJoin = 'miter';
+    ctx.stroke();
+  }
+  ctx.restore();
+  // thin ring so light flags read on white pills
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.lineWidth = Math.max(2, r * 0.06);
+  ctx.strokeStyle = 'rgba(30,27,75,0.15)';
+  ctx.stroke();
 }
 
 // ---------------------------------------------------------------------------
