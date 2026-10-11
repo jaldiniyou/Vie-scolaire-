@@ -93,7 +93,7 @@ Character construction: geometric shapes with hinge joints, a 2.5-head body rati
 
 ---
 
-## 4. Voice-over script (clean read, about 105 words, about 42 s of speech)
+## 4. Voice-over script (reference only, superseded by the client audio in section 5)
 
 > Encore un 8 sur 20 ?
 > Les embouteillages, les centres bondés, le temps qui manque…
@@ -112,7 +112,27 @@ Character construction: geometric shapes with hinge joints, a 2.5-head body rati
 
 ## 5. Music and sound
 
-> **Client audio:** the client wants to use their own audio track. It has not been received yet. Once it is supplied, re-time the scene cuts in section 3 to its beats and drops, and keep the pin reveal (Scene 4) on the main drop.
+> **Client audio (received):** `audio/voiceover-parents.wav`, 46.32 s, mono 24 kHz WAV. It is a generated voice-over aimed at parents and **replaces the voice-over script in section 4**. The picture is cut to its phrases (see the timing map below). The video runs **48.0 s**: 46.3 s of voice plus a 1.7 s silent logo hold. The music below plays under it as a bed only.
+
+### Timing map: client voice-over → scenes
+Phrase boundaries were detected automatically from pauses longer than 0.25 s below −35 dB. Cut **in each pause**, never mid-word.
+
+| Phrase | Speech (s) | Pause after (s) | Scene(s) | Cut point |
+|---|---|---|---|---|
+| 1 | 0.00–4.40 | 0.40 | 1 Hook ("8/20") | 4.6 |
+| 2 | 4.80–10.86 | 0.38 | 2 Traffic split + 3 Paper tower (cut at about 7.8 on a breath) | 11.0 |
+| 3 | 11.24–11.46 | 0.41 | **4 Pin drop + logo** (short word, likely "TutinGo"; land the pin at 11.24) | — |
+| 4 | 11.86–14.38 | 0.41 | 4 Logo builds / map | 14.6 |
+| 5 | 14.79–17.55 | 0.35 | 5 Step 1: choose | 17.7 |
+| 6 | 17.89–19.69 | 0.27 | 6 Step 2: book | 19.8 |
+| 7 | 19.96–22.73 | 0.48 | 7 Step 3: pin travels to the door | 23.0 |
+| 8 | 23.21–33.19 | 0.64 | 7 Door opens, tutor steps out (to about 26.5) → 8 Session at home | 33.5 |
+| 9 | 33.83–36.40 | 0.69 | 9a–9b Proof: 16/20, reading | 36.7 |
+| 10 | 37.08–40.29 | 0.56 | 9c Relaxed parent + notification | 40.6 |
+| 11 | 40.85–43.88 | 0.29 | 10 Family waves, pins light up across Morocco | 44.0 |
+| 12 | 44.17–45.96 | — | 11 End card: logo + CTA (hold to 48.0) | — |
+
+Supertitles must follow the **exact words of the client audio**. Replace the section 3 supertitle column once the transcript is confirmed. The mapping above assumes the voice-over follows the problem → solution → 3 steps → benefits → CTA order.
 
 - **Track:** 100–110 BPM, modern Moroccan electro-pop with darbuka, handclaps, plucked oud or synth. Royalty-free search terms: *"moroccan upbeat corporate"*, *"oriental electronic happy"*.
 - **Structure:** muted intro (0–10 s) → drop on the pin reveal (0:10) → steady groove → lift at 0:40 → button ending at 0:48.
