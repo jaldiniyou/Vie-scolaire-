@@ -53,3 +53,8 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+
+# Google Search Console credentials (MCP server) — never commit
+secrets/
+service_account*.json
+client_secret*.json
