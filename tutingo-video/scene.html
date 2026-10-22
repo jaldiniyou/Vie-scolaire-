@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>TutinGo Motion</title>
+<style>
+  @font-face { font-family: Poppins; font-weight: 400; src: url(fonts/poppins-latin-400-normal.woff2); }
+  @font-face { font-family: Poppins; font-weight: 600; src: url(fonts/poppins-latin-600-normal.woff2); }
+  @font-face { font-family: Poppins; font-weight: 700; src: url(fonts/poppins-latin-700-normal.woff2); }
+  @font-face { font-family: Poppins; font-weight: 800; src: url(fonts/poppins-latin-800-normal.woff2); }
+  @font-face { font-family: Cairo; font-weight: 700; src: url(fonts/cairo-arabic-700-normal.woff2); }
+
+  :root {
+    --primary: #2F5BFF;
+    --primary-2: #1C3FD6;
+    --dark: #1B2A6B;
+    --accent: #FFB21E;
+    --route: #FF5E3A;
+    --green: #22C55E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1080px; overflow: hidden; background: #000; }
+  body { font-family: Poppins, sans-serif; -webkit-font-smoothing: antialiased; }
+
+  #stage { position: absolute; inset: 0; overflow: hidden;
+    background: radial-gradient(circle at 70% 40%, #3D68FF 0%, var(--primary) 45%, var(--primary-2) 100%); }
+  #bgpattern { position: absolute; left: -100px; top: -100px; width: 1280px; height: 1280px; opacity: .09; }
+
+  .floater { position: absolute; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 26px;
+    background: #fff; box-shadow: 0 14px 30px rgba(10,20,80,.25); display: grid; place-items: center; }
+  .floater svg { width: 48px; height: 48px; }
+
+  #cam { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  #phone { position: relative; width: 460px; height: 940px; border-radius: 70px; background: #0E1220;
+    box-shadow: 0 40px 80px rgba(5,10,60,.45), inset 0 0 0 3px #2A3046; }
+  #screen { position: absolute; left: 14px; top: 14px; width: 432px; height: 912px; border-radius: 56px;
+    overflow: hidden; background: #fff; }
+  #island { position: absolute; left: 50%; top: 12px; width: 120px; height: 34px; margin-left: -60px;
+    border-radius: 20px; background: #0E1220; z-index: 5; }
+  #statusbar { position: absolute; top: 16px; left: 34px; right: 30px; display: flex; justify-content: space-between;
+    font: 600 15px Poppins; color: #111; z-index: 4; }
+  #map { position: absolute; left: 0; top: 0; width: 432px; height: 520px; }
+
+  #sheet { position: absolute; top: 488px; left: 0; right: 0; bottom: 0; background: #fff;
+    border-radius: 26px 26px 0 0; box-shadow: 0 -8px 24px rgba(0,0,0,.08); padding: 10px 20px 0; }
+  .handle { width: 42px; height: 5px; border-radius: 3px; background: #D5DAE3; margin: 0 auto 10px; }
+  .hint { text-align: center; font-size: 11.5px; color: #8A93A6; margin-bottom: 12px; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+  .tab { font: 600 13px Poppins; padding: 7px 14px; border-radius: 18px; color: #4B5468; background: #F1F3F8; }
+  .tab.on { background: var(--primary); color: #fff; }
+  .card { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 18px; background: #EEF2FF;
+    border: 2px solid #D6DEFF; margin-bottom: 14px; transform-origin: 50% 50%; }
+  .card .av { width: 50px; height: 50px; border-radius: 50%; background: #DCE4FF; overflow: hidden; flex: none; }
+  .card .name { font: 700 15px Poppins; color: var(--dark); }
+  .card .meta { font: 400 12px Poppins; color: #5B6478; }
+  .card .right { margin-left: auto; text-align: right; }
+  .card .star { font: 700 13px Poppins; color: #E69A00; }
+  .card .price { font: 700 14px Poppins; color: var(--dark); }
+  .row { display: flex; align-items: center; gap: 10px; font: 400 12.5px Poppins; color: #4B5468; margin-bottom: 14px; }
+  .chk { width: 18px; height: 18px; border-radius: 5px; border: 2px solid #B9C1D3; }
+  .toggle { margin-left: auto; width: 40px; height: 22px; border-radius: 12px; background: #E3E7EF; position: relative; }
+  .toggle::after { content: ""; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; }
+  .actions { display: flex; gap: 10px; margin-bottom: 12px; }
+  #book { position: relative; flex: 1; height: 52px; border-radius: 16px; background: var(--primary); color: #fff;
+    font: 700 16px Poppins; display: grid; place-items: center; overflow: hidden; transform-origin: 50% 50%; }
+  #ripple { position: absolute; width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,.45);
+    left: 50%; top: 50%; margin: -10px 0 0 -10px; transform: scale(0); }
+  .cal { width: 52px; height: 52px; border-radius: 16px; background: #EEF2FF; display: grid; place-items: center; }
+  .legal { font: 400 10px Poppins; color: #9AA2B4; text-align: center; line-height: 1.4; }
+  .legal b { color: var(--primary); font-weight: 600; }
+  #finger { position: absolute; width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,.55);
+    border: 3px solid rgba(255,255,255,.9); box-shadow: 0 6px 18px rgba(0,0,0,.25); left: 0; top: 0; opacity: 0; z-index: 6; }
+
+  #endcard { position: absolute; left: 560px; top: 0; width: 520px; height: 1080px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center; color: #fff; }
+  #logo { width: 400px; }
+  #logo svg, #logo img { width: 100%; height: auto; display: block; }
+  #tag { font: 800 38px/1.15 Poppins; margin-top: 26px; letter-spacing: -.5px; }
+  #tag-ar { font: 700 30px Cairo, sans-serif; margin-top: 8px; direction: rtl; color: #DCE5FF; }
+  #cta { margin-top: 34px; background: #fff; color: var(--primary); font: 700 22px Poppins; padding: 16px 30px;
+    border-radius: 40px; box-shadow: 0 14px 30px rgba(10,20,80,.3); display: flex; gap: 10px; align-items: center; }
+  #cta span { color: var(--dark); }
+  #subjects { display: flex; gap: 10px; margin-top: 26px; }
+  #subjects div { font: 600 15px Poppins; padding: 7px 14px; border-radius: 20px; border: 2px solid rgba(255,255,255,.45); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- Avatar de professeure : lunettes, blazer, livre de maths sous le bras -->
+    <symbol id="teacher" viewBox="-50 -50 100 100" overflow="visible">
+      <path d="M-27,-12 Q-32,24 -20,30 L20,30 Q32,24 27,-12 Z" fill="#3A2318"/>
+      <path d="M-42,52 Q-42,20 0,17 Q42,20 42,52 Z" fill="#1B2A6B"/>
+      <path d="M-11,17 L0,34 L11,17 Z" fill="#FFFFFF"/>
+      <path d="M-11,17 L-4,40 L-17,23 Z M11,17 L4,40 L17,23 Z" fill="#2B3E8F"/>
+      <rect x="-7" y="4" width="14" height="15" rx="4" fill="#E2A982"/>
+      <ellipse cx="0" cy="-10" rx="20" ry="23" fill="#F2C29E"/>
+      <path d="M-23,-12 Q-22,-38 0,-37 Q23,-38 23,-12 Q20,-24 8,-27 Q-6,-21 -23,-12 Z" fill="#3A2318"/>
+      <circle cx="-14" cy="-1" r="3.6" fill="#F59A8E" opacity=".55"/>
+      <circle cx="14" cy="-1" r="3.6" fill="#F59A8E" opacity=".55"/>
+      <circle cx="-8" cy="-9" r="6.4" fill="#FFFFFF" fill-opacity=".35" stroke="#1B2A6B" stroke-width="2"/>
+      <circle cx="8" cy="-9" r="6.4" fill="#FFFFFF" fill-opacity=".35" stroke="#1B2A6B" stroke-width="2"/>
+      <path d="M-1.6,-9 L1.6,-9" stroke="#1B2A6B" stroke-width="2"/>
+      <circle cx="-8" cy="-9" r="1.8" fill="#1B2A6B"/>
+      <circle cx="8" cy="-9" r="1.8" fill="#1B2A6B"/>
+      <path d="M-6,3 Q0,8 6,3" fill="none" stroke="#B5524A" stroke-width="2" stroke-linecap="round"/>
+      <!-- livre -->
+      <g transform="translate(22,36) rotate(-12)">
+        <rect x="-13" y="-17" width="26" height="32" rx="3" fill="#FFB21E" stroke="#C47F00" stroke-width="1.5"/>
+        <rect x="-13" y="10" width="26" height="5" fill="#FFFFFF"/>
+        <text x="0" y="3" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="12" fill="#1B2A6B">x²</text>
+      </g>
+      <ellipse cx="13" cy="46" rx="7" ry="6" fill="#F2C29E"/>
+    </symbol>
+    <symbol id="house" viewBox="-40 -40 80 80" overflow="visible">
+      <ellipse cx="0" cy="30" rx="32" ry="4" fill="#000" opacity=".12"/>
+      <rect x="-24" y="-6" width="48" height="35" rx="2" fill="#FFF6E8" stroke="#1B2A6B" stroke-width="2.5"/>
+      <path d="M-33,-3 L0,-31 L33,-3 Z" fill="#2F5BFF" stroke="#1B2A6B" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="-6" y="11" width="12" height="18" rx="1.5" fill="#FFB21E" stroke="#1B2A6B" stroke-width="2"/>
+      <rect x="-19" y="2" width="9" height="9" fill="#9EC5FF" stroke="#1B2A6B" stroke-width="1.6"/>
+      <rect x="10" y="2" width="9" height="9" fill="#9EC5FF" stroke="#1B2A6B" stroke-width="1.6"/>
+    </symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 6c2.5-2 5.5-2 8-.5V19c-2.5-1.5-5.5-1.5-8 .5-2.5-2-5.5-2-8-.5Z" fill="#2F5BFF"/><path d="M12 6v13.5" stroke="#fff" stroke-width="1.5"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><g transform="rotate(45 12 12)"><rect x="9" y="2" width="6" height="15" rx="1" fill="#FFB21E"/><path d="M9 17h6l-3 5Z" fill="#F2C29E"/><path d="M11 20.3h2l-1 1.7Z" fill="#1B2A6B"/><rect x="9" y="2" width="6" height="3" fill="#FF5E3A"/></g></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M12 4 23 9 12 14 1 9Z" fill="#1B2A6B"/><path d="M6 11.5v4.5c3 2.5 9 2.5 12 0v-4.5L12 14Z" fill="#2F5BFF"/><path d="M21 9.5v6" stroke="#FFB21E" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-abc" viewBox="0 0 24 24"><text x="12" y="16" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="10" fill="#2F5BFF">ABC</text></symbol>
+    <symbol id="i-math" viewBox="0 0 24 24"><text x="12" y="17.5" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="15" fill="#FF5E3A">x²</text></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 10a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-10V3" fill="none" stroke="#1B2A6B" stroke-width="2" stroke-linejoin="round"/><path d="M7.2 15h9.6l2 4a1.2 1.2 0 0 1-1 2H6.2a1.2 1.2 0 0 1-1-2Z" fill="#22C55E"/></symbol>
+    <clipPath id="pinclip"><circle id="pinclipc" cx="0" cy="0" r="90"/></clipPath>
+  </defs>
+</svg>
+
+<div id="stage">
+  <svg id="bgpattern" viewBox="0 0 1280 1280"></svg>
+  <div id="floaters"></div>
+
+  <div id="cam">
+    <div id="phone">
+      <div id="screen">
+        <div id="island"></div>
+        <div id="statusbar"><span>18:00</span><span>●●● ▮</span></div>
+        <svg id="map" viewBox="0 0 432 520">
+          <rect width="432" height="520" fill="#EDF1F6"/>
+          <g id="parks"></g>
+          <g id="roads"></g>
+          <g id="drifters"></g>
+          <path id="routeHalo" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+          <path id="route" fill="none" stroke="#FF5E3A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          <g id="houseG">
+            <use href="#house" x="-40" y="-40" width="80" height="80"/>
+            <text id="houseLabel" x="0" y="-46" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="17"
+              fill="#1B2A6B" stroke="#fff" stroke-width="5" paint-order="stroke">Chez vous</text>
+            <g id="check">
+              <circle cx="0" cy="0" r="12" fill="#22C55E" stroke="#fff" stroke-width="3"/>
+              <path d="M-5,0 L-1.5,4 L5.5,-4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+          </g>
+          <circle id="pulse" r="40" fill="none" stroke="#2F5BFF" stroke-width="3"/>
+          <g id="teacherG">
+            <line id="stem" x1="0" y1="40" x2="0" y2="70" stroke="#FF5E3A" stroke-width="7" stroke-linecap="round"/>
+            <circle id="pinDisc" r="47" fill="#DCE4FF" stroke="#2F5BFF" stroke-width="5"/>
+            <g clip-path="url(#pinclip)"><use href="#teacher" x="-50" y="-50" width="100" height="100"/></g>
+          </g>
+          <g id="chipG">
+            <rect x="-78" y="-17" width="156" height="34" rx="17" fill="#fff" stroke="#E3E8F2" stroke-width="1.5"/>
+            <text x="0" y="6" text-anchor="middle" font-family="Poppins" font-weight="700" font-size="13.5" fill="#1B2A6B">Prof de Maths <tspan fill="#E69A00">★ 4.9</tspan></text>
+          </g>
+          <g id="controls">
+            <circle cx="400" cy="402" r="17" fill="#fff" stroke="#E3E8F2"/>
+            <path d="M400 393a6 6 0 0 1 6 6c0 5-6 11-6 11s-6-6-6-11a6 6 0 0 1 6-6Z" fill="#1B2A6B"/>
+            <circle cx="400" cy="446" r="17" fill="#fff" stroke="#E3E8F2"/>
+            <rect x="392" y="440" width="16" height="13" rx="2" fill="none" stroke="#1B2A6B" stroke-width="2"/>
+            <path d="M392 444h16" stroke="#1B2A6B" stroke-width="2"/>
+          </g>
+          <g id="topChip">
+            <rect x="-112" y="-16" width="224" height="32" rx="16" fill="#1B2A6B"/>
+            <circle cx="-92" cy="0" r="8" fill="#22C55E"/>
+            <path d="M-95.5,0 L-92.5,3 L-88,-2.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <text x="8" y="5" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="12.5" fill="#fff">Cours confirmé · 18:00</text>
+          </g>
+        </svg>
+
+        <div id="sheet">
+          <div class="handle"></div>
+          <div class="hint">Glissez vers le haut pour voir tous nos profs</div>
+          <div class="tabs"><div class="tab on">À domicile</div><div class="tab">En ligne</div><div class="tab">Stage</div></div>
+          <div class="card" id="card">
+            <div class="av"><svg viewBox="-50 -50 100 100" width="50" height="50"><use href="#teacher" x="-50" y="-44" width="100" height="100"/></svg></div>
+            <div><div class="name">Sara B.</div><div class="meta">Mathématiques · 2ème Bac</div></div>
+            <div class="right"><div class="star">★ 4.9</div><div class="price">150 DH/h</div></div>
+          </div>
+          <div class="row"><div class="chk"></div>Rappel 1h avant le cours<div class="toggle"></div></div>
+          <div class="actions">
+            <div id="book"><div id="ripple"></div><span id="bookTxt">Réserver un cours</span></div>
+            <div class="cal"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="#2F5BFF" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="#2F5BFF" stroke-width="2" stroke-linecap="round"/></svg></div>
+          </div>
+          <div class="legal">En réservant, j'accepte les <b>Conditions générales</b><br>et la <b>Politique de confidentialité</b></div>
+        </div>
+        <div id="finger"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="endcard">
+    <div id="logo"><!--LOGO--></div>
+    <div id="tag">Le bon prof,<br>chez vous.</div>
+    <div id="tag-ar">الأستاذ المناسب، في بيتك</div>
+    <div id="subjects"><div>Maths</div><div>Physique</div><div>Langues</div></div>
+    <div id="cta"><span>www.</span>tutingo.com</div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, x) => a + (b - a) * x;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const outCubic = x => 1 - Math.pow(1 - x, 3);
+const inOutCubic = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const outBack = (x, s = 1.9) => x <= 0 ? 0 : 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+
+// --- Plan de la ville (déterministe) ---
+let seed = 7;
+const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const H = [60, 150, 265, 380, 470], V = [50, 170, 260, 365];
+function drawCity(g, w, h, major, minor, color, sx = 1) {
+  for (let i = 0; i < 14; i++) {
+    const y = rnd() * h, x = rnd() * w;
+    el('line', { x1: -20, y1: y, x2: w + 20, y2: y + (rnd() - .5) * 30, stroke: color, 'stroke-width': minor }, g);
+    el('line', { x1: x, y1: -20, x2: x + (rnd() - .5) * 30, y2: h + 20, stroke: color, 'stroke-width': minor }, g);
+  }
+  H.forEach(y => el('line', { x1: -20, y1: y * sx, x2: w + 20, y2: y * sx, stroke: color, 'stroke-width': major }, g));
+  V.forEach(x => el('line', { x1: x * sx, y1: -20, x2: x * sx, y2: h + 20, stroke: color, 'stroke-width': major }, g));
+  el('line', { x1: -20, y1: 340 * sx, x2: w + 20, y2: 200 * sx, stroke: color, 'stroke-width': major }, g);
+}
+[[60, 160, 90, 85], [272, 395, 80, 70], [300, 10, 55, 40], [10, 280, 32, 60]].forEach(([x, y, w, h]) =>
+  el('rect', { x, y, width: w, height: h, rx: 6, fill: '#D3ECD6' }, $('parks')));
+drawCity($('roads'), 432, 520, 9, 3.5, '#FFFFFF');
+seed = 11; drawCity($('bgpattern'), 1280, 1280, 22, 8, '#FFFFFF', 2.6);
+
+// --- Icônes qui circulent sur le plan (comme les voitures de la vidéo de référence) ---
+const icons = ['i-book', 'i-pencil', 'i-cap', 'i-abc', 'i-math', 'i-flask'];
+const drifters = [
+  [[-20, 60], [452, 60], .9, 0], [[452, 150], [-20, 150], .7, .3], [[50, -20], [50, 540], .8, .6],
+  [[260, 540], [260, -20], .6, .1], [[-20, 470], [452, 470], .75, .5], [[-20, 340], [452, 200], .65, .8],
+  [[170, -20], [170, 540], .55, .25], [[452, 380], [-20, 380], .5, .9],
+].map(([a, b, sp, off], i) => {
+  const g = el('g', {}, $('drifters'));
+  el('circle', { r: 11, fill: '#fff', stroke: '#DDE3EE', 'stroke-width': 1 }, g);
+  el('use', { href: '#' + icons[i % icons.length], x: -8, y: -8, width: 16, height: 16 }, g);
+  return { g, a, b, sp, off };
+});
+
+// --- Itinéraire prof -> maison ---
+const R = [[365, 150], [365, 380], [170, 380], [170, 265], [125, 265]];
+const segs = []; let L = 0;
+for (let i = 1; i < R.length; i++) { const d = Math.hypot(R[i][0] - R[i - 1][0], R[i][1] - R[i - 1][1]); segs.push(d); L += d; }
+const routeD = 'M' + R.map(p => p.join(',')).join(' L');
+$('route').setAttribute('d', routeD); $('routeHalo').setAttribute('d', routeD);
+function along(f) {
+  let d = f * L;
+  for (let i = 0; i < segs.length; i++) {
+    if (d <= segs[i] || i === segs.length - 1) { const k = clamp(d / segs[i]); return [lerp(R[i][0], R[i + 1][0], k), lerp(R[i][1], R[i + 1][1], k)]; }
+    d -= segs[i];
+  }
+}
+
+// --- Icônes flottantes sur le fond bleu ---
+const floaters = [[625, 92, 'i-book', -12], [1000, 120, 'i-cap', 10], [990, 975, 'i-pencil', -8], [640, 1000, 'i-math', 8], [830, 60, 'i-flask', -10]]
+  .map(([x, y, ic, r], i) => {
+    const d = document.createElement('div'); d.className = 'floater';
+    d.innerHTML = `<svg viewBox="0 0 24 24"><use href="#${ic}"/></svg>`;
+    $('floaters').appendChild(d); return { d, x, y, r, i };
+  });
+
+const P_MAP = [14 + 216, 14 + 260], P_PHONE = [230, 470];
+const set = (id, attr, v) => $(id).setAttribute(attr, v);
+const show = (node, o, tr = '') => { node.style.opacity = o; node.style.transform = tr; };
+
+function render(t) {
+  // Caméra : gros plan sur le plan -> dézoom sur le téléphone -> glisse à gauche
+  const zA = lerp(2.66, 2.5, outCubic(prog(t, 0, 5.2)));
+  const p = inOutCubic(prog(t, 5.0, 7.1));
+  const k = zA * Math.pow(1 / zA, p);
+  const P = [lerp(P_MAP[0], P_PHONE[0], p), lerp(P_MAP[1], P_PHONE[1], p)];
+  const q = inOutCubic(prog(t, 7.7, 8.8));
+  const S = [540 - 215 * q, 540];
+  $('cam').style.transform = `translate(${S[0] - k * P[0]}px, ${S[1] - k * P[1]}px) scale(${k})`;
+
+  // Icônes qui circulent sur le plan
+  drifters.forEach(d => {
+    const f = (d.off + t * d.sp / 14 * 1.6) % 1;
+    d.g.setAttribute('transform', `translate(${lerp(d.a[0], d.b[0], f)},${lerp(d.a[1], d.b[1], f)})`);
+  });
+
+  // Prof : apparition, réduction en épingle, puis trajet jusqu'à la maison
+  const a = outBack(prog(t, 0.25, 0.95));
+  const b = inOutCubic(prog(t, 2.5, 3.3));
+  const c = inOutCubic(prog(t, 4.2, 5.8));
+  const PIN_UP = 36;
+  let pos = [lerp(216, R[0][0], b), lerp(248, R[0][1] - PIN_UP, b)];
+  if (c > 0) { const r = along(c); pos = [r[0], r[1] - PIN_UP]; }
+  const side = inOutCubic(prog(t, 5.8, 6.3));
+  if (side > 0) pos = [lerp(pos[0], 178, side), lerp(pos[1], 222, side)];
+  const hop = c > 0 && c < 1 ? Math.abs(Math.sin(c * Math.PI * 7)) * 4 : 0;
+  const s = a * lerp(.98, .52, b) * lerp(1, .85, side);
+  set('teacherG', 'transform', `translate(${pos[0]},${pos[1] - hop}) scale(${s})`);
+  set('pinclipc', 'r', lerp(90, 44, b));
+  $('pinDisc').style.opacity = b;
+  $('stem').style.opacity = b;
+
+  const pp = prog(t, 0.7, 1.9);
+  set('pulse', 'transform', `translate(216,248) scale(${lerp(.9, 2.1, outCubic(pp))})`);
+  $('pulse').style.opacity = pp > 0 ? (1 - pp) * .6 : 0;
+
+  const ci = outBack(prog(t, 0.95, 1.4)) * (1 - prog(t, 2.35, 2.6));
+  set('chipG', 'transform', `translate(216,${330 + (1 - ci) * 10}) scale(${ci})`);
+  $('chipG').style.opacity = clamp(ci * 2);
+
+  // Itinéraire
+  const dr = inOutCubic(prog(t, 3.1, 4.2));
+  const consumed = c * L, drawn = dr * L;
+  ['route', 'routeHalo'].forEach(id => set(id, 'stroke-dasharray', `0 ${consumed} ${Math.max(0, drawn - consumed)} ${L * 3}`));
+  $('route').style.opacity = $('routeHalo').style.opacity = dr > 0 ? 1 : 0;
+
+  // Maison
+  const hs = outBack(prog(t, 2.9, 3.5));
+  const arrive = Math.sin(prog(t, 5.8, 6.25) * Math.PI) * .15;
+  set('houseG', 'transform', `translate(125,232) scale(${hs * (1 + arrive)})`);
+  const ls = outBack(prog(t, 3.25, 3.7));
+  $('houseLabel').style.opacity = clamp(ls * 2);
+  set('houseLabel', 'transform', `translate(0,${(1 - ls) * 8})`);
+  const cs = outBack(prog(t, 5.95, 6.4), 2.6);
+  set('check', 'transform', `translate(-26,-24) scale(${cs})`);
+
+  // Bandeau "Cours confirmé"
+  const tc = outBack(prog(t, 6.5, 7.0));
+  set('topChip', 'transform', `translate(216,${lerp(20, 66, tc)}) scale(${lerp(.6, 1, tc)})`);
+  $('topChip').style.opacity = clamp(tc * 1.5);
+
+  // Fiche prof : léger pulse, puis tap sur "Réserver"
+  const cp = Math.sin(prog(t, 7.2, 7.8) * Math.PI) * .035;
+  $('card').style.transform = `scale(${1 + cp})`;
+  const fIn = prog(t, 9.9, 10.35), fOut = prog(t, 10.9, 11.3);
+  const fx = lerp(330, 170, outCubic(fIn)), fy = lerp(900, 728, outCubic(fIn));
+  const press = Math.sin(prog(t, 10.35, 10.65) * Math.PI);
+  $('finger').style.opacity = fIn * (1 - fOut);
+  $('finger').style.transform = `translate(${fx - 27}px,${fy - 27}px) scale(${1 - .18 * press})`;
+  $('book').style.transform = `scale(${1 - .05 * press})`;
+  const rp = prog(t, 10.45, 11.1);
+  $('ripple').style.transform = `scale(${rp * 22})`;
+  $('ripple').style.opacity = rp > 0 ? 1 - rp : 0;
+  const done = t >= 10.6;
+  $('book').style.background = done ? 'var(--green)' : 'var(--primary)';
+  $('bookTxt').textContent = done ? 'Cours réservé ✓' : 'Réserver un cours';
+
+  // Fond bleu animé + icônes flottantes
+  $('bgpattern').style.transform = `translate(${-t * 6}px, ${-t * 3}px) rotate(-8deg)`;
+  floaters.forEach(f => {
+    const e = outBack(prog(t, 6.6 + f.i * .12, 7.3 + f.i * .12));
+    const dx = Math.sin(t * .8 + f.i) * 10, dy = Math.cos(t * .7 + f.i * 2) * 12;
+    show(f.d, clamp(e * 1.5), `translate(${f.x + dx}px,${f.y + dy}px) rotate(${f.r + Math.sin(t + f.i) * 6}deg) scale(${e})`);
+  });
+
+  // Carton final
+  const lg = outBack(prog(t, 8.2, 8.95), 1.6);
+  const float = Math.sin(Math.max(0, t - 9) * 1.6) * 4;
+  show($('logo'), clamp(lg * 1.4), `translate(${(1 - lg) * 120}px, ${float}px) rotate(${(1 - lg) * -10}deg) scale(${lerp(.7, 1, lg)})`);
+  [['tag', 8.75], ['tag-ar', 8.95], ['subjects', 9.15], ['cta', 9.4]].forEach(([id, t0]) => {
+    const e = outBack(prog(t, t0, t0 + .5));
+    show($(id), clamp(e * 1.5), `translateY(${(1 - e) * 30}px) scale(${lerp(.85, 1, e)})`);
+  });
+  const ctaPulse = 1 + Math.max(0, Math.sin((t - 11.5) * 3)) * .04 * (t > 11.5 ? 1 : 0);
+  if (t > 9.9) $('cta').style.transform = `scale(${ctaPulse})`;
+}
+window.render = render;
+render(Number(new URLSearchParams(location.search).get('t') || 0));
+</script>
+</body>
+</html>
