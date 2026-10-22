@@ -5,8 +5,8 @@
 Déroulé : une prof apparaît sur le plan → elle devient une épingle → l'itinéraire se trace jusqu'à « Chez vous » → elle arrive (✓) → dézoom sur l'appli TutinGo → le téléphone glisse à gauche, logo + accroche + tutingo.com.
 
 ## Modifier / régénérer
-- Logo : remplacez `logo.svg`, ou déposez un `logo.png` (il est prioritaire).
-- Couleurs : variables `--primary`, `--accent`… en haut de `scene.html`.
+- Logo : `logo.png` (logo officiel détouré, fond transparent). Un `logo.svg` déposé à côté serait prioritaire.
+- Couleurs du logo : violet `#6433DD` (G), violet `#751AE4` (repère), noir. Variables en haut de `scene.html`.
 - Textes, timing : `scene.html` (fonction `render(t)`, temps en secondes).
 
 ```sh

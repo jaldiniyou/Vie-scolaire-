@@ -11,11 +11,11 @@
   @font-face { font-family: Cairo; font-weight: 700; src: url(fonts/cairo-arabic-700-normal.woff2); }
 
   :root {
-    --primary: #2F5BFF;
-    --primary-2: #1C3FD6;
-    --dark: #1B2A6B;
-    --accent: #FFB21E;
-    --route: #FF5E3A;
+    --primary: #6433DD;
+    --primary-2: #751AE4;
+    --dark: #14112A;
+    --accent: #B79CFF;
+    --route: #751AE4;
     --green: #22C55E;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,16 +23,16 @@
   body { font-family: Poppins, sans-serif; -webkit-font-smoothing: antialiased; }
 
   #stage { position: absolute; inset: 0; overflow: hidden;
-    background: radial-gradient(circle at 70% 40%, #3D68FF 0%, var(--primary) 45%, var(--primary-2) 100%); }
-  #bgpattern { position: absolute; left: -100px; top: -100px; width: 1280px; height: 1280px; opacity: .09; }
+    background: radial-gradient(circle at 72% 45%, #FFFFFF 0%, #F6F2FF 40%, #E6DCFF 100%); }
+  #bgpattern { position: absolute; left: -100px; top: -100px; width: 1280px; height: 1280px; opacity: .06; }
 
   .floater { position: absolute; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 26px;
-    background: #fff; box-shadow: 0 14px 30px rgba(10,20,80,.25); display: grid; place-items: center; }
+    background: #fff; box-shadow: 0 14px 30px rgba(80,30,170,.20); display: grid; place-items: center; }
   .floater svg { width: 48px; height: 48px; }
 
   #cam { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
   #phone { position: relative; width: 460px; height: 940px; border-radius: 70px; background: #0E1220;
-    box-shadow: 0 40px 80px rgba(5,10,60,.45), inset 0 0 0 3px #2A3046; }
+    box-shadow: 0 40px 80px rgba(70,25,160,.35), inset 0 0 0 3px #2A3046; }
   #screen { position: absolute; left: 14px; top: 14px; width: 432px; height: 912px; border-radius: 56px;
     overflow: hidden; background: #fff; }
   #island { position: absolute; left: 50%; top: 12px; width: 120px; height: 34px; margin-left: -60px;
@@ -48,9 +48,9 @@
   .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
   .tab { font: 600 13px Poppins; padding: 7px 14px; border-radius: 18px; color: #4B5468; background: #F1F3F8; }
   .tab.on { background: var(--primary); color: #fff; }
-  .card { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 18px; background: #EEF2FF;
-    border: 2px solid #D6DEFF; margin-bottom: 14px; transform-origin: 50% 50%; }
-  .card .av { width: 50px; height: 50px; border-radius: 50%; background: #DCE4FF; overflow: hidden; flex: none; }
+  .card { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 18px; background: #F1ECFF;
+    border: 2px solid #DCD0FF; margin-bottom: 14px; transform-origin: 50% 50%; }
+  .card .av { width: 50px; height: 50px; border-radius: 50%; background: #E6DCFF; overflow: hidden; flex: none; }
   .card .name { font: 700 15px Poppins; color: var(--dark); }
   .card .meta { font: 400 12px Poppins; color: #5B6478; }
   .card .right { margin-left: auto; text-align: right; }
@@ -65,23 +65,23 @@
     font: 700 16px Poppins; display: grid; place-items: center; overflow: hidden; transform-origin: 50% 50%; }
   #ripple { position: absolute; width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,.45);
     left: 50%; top: 50%; margin: -10px 0 0 -10px; transform: scale(0); }
-  .cal { width: 52px; height: 52px; border-radius: 16px; background: #EEF2FF; display: grid; place-items: center; }
+  .cal { width: 52px; height: 52px; border-radius: 16px; background: #F1ECFF; display: grid; place-items: center; }
   .legal { font: 400 10px Poppins; color: #9AA2B4; text-align: center; line-height: 1.4; }
   .legal b { color: var(--primary); font-weight: 600; }
   #finger { position: absolute; width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,.55);
     border: 3px solid rgba(255,255,255,.9); box-shadow: 0 6px 18px rgba(0,0,0,.25); left: 0; top: 0; opacity: 0; z-index: 6; }
 
   #endcard { position: absolute; left: 560px; top: 0; width: 520px; height: 1080px; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; text-align: center; color: #fff; }
-  #logo { width: 400px; }
+    align-items: center; justify-content: center; text-align: center; color: var(--dark); }
+  #logo { width: 440px; }
   #logo svg, #logo img { width: 100%; height: auto; display: block; }
   #tag { font: 800 38px/1.15 Poppins; margin-top: 26px; letter-spacing: -.5px; }
-  #tag-ar { font: 700 30px Cairo, sans-serif; margin-top: 8px; direction: rtl; color: #DCE5FF; }
-  #cta { margin-top: 34px; background: #fff; color: var(--primary); font: 700 22px Poppins; padding: 16px 30px;
-    border-radius: 40px; box-shadow: 0 14px 30px rgba(10,20,80,.3); display: flex; gap: 10px; align-items: center; }
-  #cta span { color: var(--dark); }
+  #tag-ar { font: 700 30px Cairo, sans-serif; margin-top: 8px; direction: rtl; color: var(--primary); }
+  #cta { margin-top: 34px; background: linear-gradient(90deg, var(--primary), var(--primary-2)); color: #fff; font: 700 22px Poppins; padding: 16px 30px;
+    border-radius: 40px; box-shadow: 0 14px 30px rgba(100,51,221,.35); display: flex; gap: 10px; align-items: center; }
+  #cta span { color: #D9CCFF; }
   #subjects { display: flex; gap: 10px; margin-top: 26px; }
-  #subjects div { font: 600 15px Poppins; padding: 7px 14px; border-radius: 20px; border: 2px solid rgba(255,255,255,.45); }
+  #subjects div { font: 600 15px Poppins; padding: 7px 14px; border-radius: 20px; border: 2px solid rgba(100,51,221,.35); color: var(--primary); }
 </style>
 </head>
 <body>
@@ -90,42 +90,42 @@
     <!-- Avatar de professeure : lunettes, blazer, livre de maths sous le bras -->
     <symbol id="teacher" viewBox="-50 -50 100 100" overflow="visible">
       <path d="M-27,-12 Q-32,24 -20,30 L20,30 Q32,24 27,-12 Z" fill="#3A2318"/>
-      <path d="M-42,52 Q-42,20 0,17 Q42,20 42,52 Z" fill="#1B2A6B"/>
+      <path d="M-42,52 Q-42,20 0,17 Q42,20 42,52 Z" fill="#3B1F8F"/>
       <path d="M-11,17 L0,34 L11,17 Z" fill="#FFFFFF"/>
-      <path d="M-11,17 L-4,40 L-17,23 Z M11,17 L4,40 L17,23 Z" fill="#2B3E8F"/>
+      <path d="M-11,17 L-4,40 L-17,23 Z M11,17 L4,40 L17,23 Z" fill="#5530B8"/>
       <rect x="-7" y="4" width="14" height="15" rx="4" fill="#E2A982"/>
       <ellipse cx="0" cy="-10" rx="20" ry="23" fill="#F2C29E"/>
       <path d="M-23,-12 Q-22,-38 0,-37 Q23,-38 23,-12 Q20,-24 8,-27 Q-6,-21 -23,-12 Z" fill="#3A2318"/>
       <circle cx="-14" cy="-1" r="3.6" fill="#F59A8E" opacity=".55"/>
       <circle cx="14" cy="-1" r="3.6" fill="#F59A8E" opacity=".55"/>
-      <circle cx="-8" cy="-9" r="6.4" fill="#FFFFFF" fill-opacity=".35" stroke="#1B2A6B" stroke-width="2"/>
-      <circle cx="8" cy="-9" r="6.4" fill="#FFFFFF" fill-opacity=".35" stroke="#1B2A6B" stroke-width="2"/>
-      <path d="M-1.6,-9 L1.6,-9" stroke="#1B2A6B" stroke-width="2"/>
-      <circle cx="-8" cy="-9" r="1.8" fill="#1B2A6B"/>
-      <circle cx="8" cy="-9" r="1.8" fill="#1B2A6B"/>
+      <circle cx="-8" cy="-9" r="6.4" fill="#FFFFFF" fill-opacity=".35" stroke="#14112A" stroke-width="2"/>
+      <circle cx="8" cy="-9" r="6.4" fill="#FFFFFF" fill-opacity=".35" stroke="#14112A" stroke-width="2"/>
+      <path d="M-1.6,-9 L1.6,-9" stroke="#14112A" stroke-width="2"/>
+      <circle cx="-8" cy="-9" r="1.8" fill="#14112A"/>
+      <circle cx="8" cy="-9" r="1.8" fill="#14112A"/>
       <path d="M-6,3 Q0,8 6,3" fill="none" stroke="#B5524A" stroke-width="2" stroke-linecap="round"/>
       <!-- livre -->
       <g transform="translate(22,36) rotate(-12)">
-        <rect x="-13" y="-17" width="26" height="32" rx="3" fill="#FFB21E" stroke="#C47F00" stroke-width="1.5"/>
+        <rect x="-13" y="-17" width="26" height="32" rx="3" fill="#B79CFF" stroke="#6433DD" stroke-width="1.5"/>
         <rect x="-13" y="10" width="26" height="5" fill="#FFFFFF"/>
-        <text x="0" y="3" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="12" fill="#1B2A6B">x²</text>
+        <text x="0" y="3" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="12" fill="#14112A">x²</text>
       </g>
       <ellipse cx="13" cy="46" rx="7" ry="6" fill="#F2C29E"/>
     </symbol>
     <symbol id="house" viewBox="-40 -40 80 80" overflow="visible">
       <ellipse cx="0" cy="30" rx="32" ry="4" fill="#000" opacity=".12"/>
-      <rect x="-24" y="-6" width="48" height="35" rx="2" fill="#FFF6E8" stroke="#1B2A6B" stroke-width="2.5"/>
-      <path d="M-33,-3 L0,-31 L33,-3 Z" fill="#2F5BFF" stroke="#1B2A6B" stroke-width="2.5" stroke-linejoin="round"/>
-      <rect x="-6" y="11" width="12" height="18" rx="1.5" fill="#FFB21E" stroke="#1B2A6B" stroke-width="2"/>
-      <rect x="-19" y="2" width="9" height="9" fill="#9EC5FF" stroke="#1B2A6B" stroke-width="1.6"/>
-      <rect x="10" y="2" width="9" height="9" fill="#9EC5FF" stroke="#1B2A6B" stroke-width="1.6"/>
+      <rect x="-24" y="-6" width="48" height="35" rx="2" fill="#FFF6E8" stroke="#14112A" stroke-width="2.5"/>
+      <path d="M-33,-3 L0,-31 L33,-3 Z" fill="#6433DD" stroke="#14112A" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="-6" y="11" width="12" height="18" rx="1.5" fill="#B79CFF" stroke="#14112A" stroke-width="2"/>
+      <rect x="-19" y="2" width="9" height="9" fill="#CDBBFF" stroke="#14112A" stroke-width="1.6"/>
+      <rect x="10" y="2" width="9" height="9" fill="#CDBBFF" stroke="#14112A" stroke-width="1.6"/>
     </symbol>
-    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 6c2.5-2 5.5-2 8-.5V19c-2.5-1.5-5.5-1.5-8 .5-2.5-2-5.5-2-8-.5Z" fill="#2F5BFF"/><path d="M12 6v13.5" stroke="#fff" stroke-width="1.5"/></symbol>
-    <symbol id="i-pencil" viewBox="0 0 24 24"><g transform="rotate(45 12 12)"><rect x="9" y="2" width="6" height="15" rx="1" fill="#FFB21E"/><path d="M9 17h6l-3 5Z" fill="#F2C29E"/><path d="M11 20.3h2l-1 1.7Z" fill="#1B2A6B"/><rect x="9" y="2" width="6" height="3" fill="#FF5E3A"/></g></symbol>
-    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M12 4 23 9 12 14 1 9Z" fill="#1B2A6B"/><path d="M6 11.5v4.5c3 2.5 9 2.5 12 0v-4.5L12 14Z" fill="#2F5BFF"/><path d="M21 9.5v6" stroke="#FFB21E" stroke-width="1.8" stroke-linecap="round"/></symbol>
-    <symbol id="i-abc" viewBox="0 0 24 24"><text x="12" y="16" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="10" fill="#2F5BFF">ABC</text></symbol>
-    <symbol id="i-math" viewBox="0 0 24 24"><text x="12" y="17.5" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="15" fill="#FF5E3A">x²</text></symbol>
-    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 10a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-10V3" fill="none" stroke="#1B2A6B" stroke-width="2" stroke-linejoin="round"/><path d="M7.2 15h9.6l2 4a1.2 1.2 0 0 1-1 2H6.2a1.2 1.2 0 0 1-1-2Z" fill="#22C55E"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 6c2.5-2 5.5-2 8-.5V19c-2.5-1.5-5.5-1.5-8 .5-2.5-2-5.5-2-8-.5Z" fill="#6433DD"/><path d="M12 6v13.5" stroke="#fff" stroke-width="1.5"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><g transform="rotate(45 12 12)"><rect x="9" y="2" width="6" height="15" rx="1" fill="#FFB21E"/><path d="M9 17h6l-3 5Z" fill="#F2C29E"/><path d="M11 20.3h2l-1 1.7Z" fill="#14112A"/><rect x="9" y="2" width="6" height="3" fill="#751AE4"/></g></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M12 4 23 9 12 14 1 9Z" fill="#14112A"/><path d="M6 11.5v4.5c3 2.5 9 2.5 12 0v-4.5L12 14Z" fill="#6433DD"/><path d="M21 9.5v6" stroke="#FFB21E" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-abc" viewBox="0 0 24 24"><text x="12" y="16" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="10" fill="#6433DD">ABC</text></symbol>
+    <symbol id="i-math" viewBox="0 0 24 24"><text x="12" y="17.5" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="15" fill="#751AE4">x²</text></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 10a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-10V3" fill="none" stroke="#14112A" stroke-width="2" stroke-linejoin="round"/><path d="M7.2 15h9.6l2 4a1.2 1.2 0 0 1-1 2H6.2a1.2 1.2 0 0 1-1-2Z" fill="#22C55E"/></symbol>
     <clipPath id="pinclip"><circle id="pinclipc" cx="0" cy="0" r="90"/></clipPath>
   </defs>
 </svg>
@@ -145,35 +145,35 @@
           <g id="roads"></g>
           <g id="drifters"></g>
           <path id="routeHalo" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-          <path id="route" fill="none" stroke="#FF5E3A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path id="route" fill="none" stroke="#751AE4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
           <g id="houseG">
             <use href="#house" x="-40" y="-40" width="80" height="80"/>
             <text id="houseLabel" x="0" y="-46" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="17"
-              fill="#1B2A6B" stroke="#fff" stroke-width="5" paint-order="stroke">Chez vous</text>
+              fill="#14112A" stroke="#fff" stroke-width="5" paint-order="stroke">Chez vous</text>
             <g id="check">
               <circle cx="0" cy="0" r="12" fill="#22C55E" stroke="#fff" stroke-width="3"/>
               <path d="M-5,0 L-1.5,4 L5.5,-4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             </g>
           </g>
-          <circle id="pulse" r="40" fill="none" stroke="#2F5BFF" stroke-width="3"/>
+          <circle id="pulse" r="40" fill="none" stroke="#6433DD" stroke-width="3"/>
           <g id="teacherG">
-            <line id="stem" x1="0" y1="40" x2="0" y2="70" stroke="#FF5E3A" stroke-width="7" stroke-linecap="round"/>
-            <circle id="pinDisc" r="47" fill="#DCE4FF" stroke="#2F5BFF" stroke-width="5"/>
+            <line id="stem" x1="0" y1="40" x2="0" y2="70" stroke="#751AE4" stroke-width="7" stroke-linecap="round"/>
+            <circle id="pinDisc" r="47" fill="#E6DCFF" stroke="#6433DD" stroke-width="5"/>
             <g clip-path="url(#pinclip)"><use href="#teacher" x="-50" y="-50" width="100" height="100"/></g>
           </g>
           <g id="chipG">
             <rect x="-78" y="-17" width="156" height="34" rx="17" fill="#fff" stroke="#E3E8F2" stroke-width="1.5"/>
-            <text x="0" y="6" text-anchor="middle" font-family="Poppins" font-weight="700" font-size="13.5" fill="#1B2A6B">Prof de Maths <tspan fill="#E69A00">★ 4.9</tspan></text>
+            <text x="0" y="6" text-anchor="middle" font-family="Poppins" font-weight="700" font-size="13.5" fill="#14112A">Prof de Maths <tspan fill="#E69A00">★ 4.9</tspan></text>
           </g>
           <g id="controls">
             <circle cx="400" cy="402" r="17" fill="#fff" stroke="#E3E8F2"/>
-            <path d="M400 393a6 6 0 0 1 6 6c0 5-6 11-6 11s-6-6-6-11a6 6 0 0 1 6-6Z" fill="#1B2A6B"/>
+            <path d="M400 393a6 6 0 0 1 6 6c0 5-6 11-6 11s-6-6-6-11a6 6 0 0 1 6-6Z" fill="#14112A"/>
             <circle cx="400" cy="446" r="17" fill="#fff" stroke="#E3E8F2"/>
-            <rect x="392" y="440" width="16" height="13" rx="2" fill="none" stroke="#1B2A6B" stroke-width="2"/>
-            <path d="M392 444h16" stroke="#1B2A6B" stroke-width="2"/>
+            <rect x="392" y="440" width="16" height="13" rx="2" fill="none" stroke="#14112A" stroke-width="2"/>
+            <path d="M392 444h16" stroke="#14112A" stroke-width="2"/>
           </g>
           <g id="topChip">
-            <rect x="-112" y="-16" width="224" height="32" rx="16" fill="#1B2A6B"/>
+            <rect x="-112" y="-16" width="224" height="32" rx="16" fill="#14112A"/>
             <circle cx="-92" cy="0" r="8" fill="#22C55E"/>
             <path d="M-95.5,0 L-92.5,3 L-88,-2.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
             <text x="8" y="5" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="12.5" fill="#fff">Cours confirmé · 18:00</text>
@@ -192,7 +192,7 @@
           <div class="row"><div class="chk"></div>Rappel 1h avant le cours<div class="toggle"></div></div>
           <div class="actions">
             <div id="book"><div id="ripple"></div><span id="bookTxt">Réserver un cours</span></div>
-            <div class="cal"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="#2F5BFF" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="#2F5BFF" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div class="cal"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="#6433DD" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="#6433DD" stroke-width="2" stroke-linecap="round"/></svg></div>
           </div>
           <div class="legal">En réservant, j'accepte les <b>Conditions générales</b><br>et la <b>Politique de confidentialité</b></div>
         </div>
@@ -238,7 +238,7 @@ function drawCity(g, w, h, major, minor, color, sx = 1) {
 [[60, 160, 90, 85], [272, 395, 80, 70], [300, 10, 55, 40], [10, 280, 32, 60]].forEach(([x, y, w, h]) =>
   el('rect', { x, y, width: w, height: h, rx: 6, fill: '#D3ECD6' }, $('parks')));
 drawCity($('roads'), 432, 520, 9, 3.5, '#FFFFFF');
-seed = 11; drawCity($('bgpattern'), 1280, 1280, 22, 8, '#FFFFFF', 2.6);
+seed = 11; drawCity($('bgpattern'), 1280, 1280, 22, 8, '#6433DD', 2.6);
 
 // --- Icônes qui circulent sur le plan (comme les voitures de la vidéo de référence) ---
 const icons = ['i-book', 'i-pencil', 'i-cap', 'i-abc', 'i-math', 'i-flask'];
@@ -267,7 +267,7 @@ function along(f) {
   }
 }
 
-// --- Icônes flottantes sur le fond bleu ---
+// --- Icônes flottantes sur le fond ---
 const floaters = [[625, 92, 'i-book', -12], [1000, 120, 'i-cap', 10], [990, 975, 'i-pencil', -8], [640, 1000, 'i-math', 8], [830, 60, 'i-flask', -10]]
   .map(([x, y, ic, r], i) => {
     const d = document.createElement('div'); d.className = 'floater';

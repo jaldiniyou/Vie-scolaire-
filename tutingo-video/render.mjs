@@ -16,10 +16,10 @@ const out = resolve(args[0] || join(here, 'tutingo-motion.mp4'));
 const framesDir = process.env.FRAMES_DIR || join(tmpdir(), 'tutingo-frames');
 const FPS = 30, DURATION = 14;
 
-// Logo : logo.png s'il existe, sinon logo.svg
-const logo = existsSync(join(here, 'logo.png'))
-  ? '<img src="logo.png" alt="TutinGo">'
-  : readFileSync(join(here, 'logo.svg'), 'utf8').replace(/<!--[\s\S]*?-->/g, '');
+// Logo officiel (fond transparent) : logo.svg s'il existe, sinon logo.png
+const logo = existsSync(join(here, 'logo.svg'))
+  ? readFileSync(join(here, 'logo.svg'), 'utf8')
+  : '<img src="logo.png" alt="TutinGo">';
 const built = join(here, '.scene.built.html');
 writeFileSync(built, readFileSync(join(here, 'scene.html'), 'utf8').replace('<!--LOGO-->', logo));
 
