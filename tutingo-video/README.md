@@ -1,6 +1,6 @@
 # Vidéo motion design TutinGo
 
-`tutingo-motion.mp4` : 14 s, 1080×1080, 30 i/s, avec bruitages.
+`tutingo-motion.mp4` : 14 s, 1080×1080, 30 i/s, musique (`music.m4a`, reprise de la vidéo d'exemple) + bruitages.
 
 Déroulé : une prof apparaît sur le plan → elle devient une épingle → l'itinéraire se trace jusqu'à « Chez vous » → elle arrive (✓) → dézoom sur l'appli TutinGo → le téléphone glisse à gauche, logo + accroche + tutingo.com.
 

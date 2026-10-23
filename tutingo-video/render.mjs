@@ -41,9 +41,15 @@ rmSync(built);
 if (preview) {
   console.log(`Aperçus : ${framesDir}`);
 } else {
-  const sfx = join(here, 'sfx.wav');
+  // Audio : music.m4a (musique) + sfx.wav (bruitages, plus discrets), fondu de sortie
+  const audio = ['music.m4a', 'sfx.wav'].map(f => join(here, f)).filter(existsSync);
+  const vol = audio.map(f => f.endsWith('sfx.wav') && audio.length > 1 ? 0.45 : 1);
+  const mix = audio.map((_, i) => `[${i + 1}:a]volume=${vol[i]}[a${i}]`).join(';') + ';'
+    + audio.map((_, i) => `[a${i}]`).join('') + `amix=inputs=${audio.length}:normalize=0,apad,atrim=0:${DURATION},`
+    + `afade=t=out:st=${DURATION - 1}:d=1,alimiter=limit=0.95[a]`;
   execFileSync('ffmpeg', ['-y', '-v', 'error', '-framerate', String(FPS), '-i', join(framesDir, 'f%04d.png'),
-    ...(existsSync(sfx) ? ['-i', sfx, '-af', 'apad', '-c:a', 'aac', '-b:a', '160k', '-shortest'] : []),
+    ...audio.flatMap(f => ['-i', f]),
+    ...(audio.length ? ['-filter_complex', mix, '-map', '0:v', '-map', '[a]', '-c:a', 'aac', '-b:a', '192k'] : []),
     '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '18', '-preset', 'slow', '-movflags', '+faststart', out], { stdio: 'inherit' });
   console.log(`Vidéo : ${out}`);
 }
