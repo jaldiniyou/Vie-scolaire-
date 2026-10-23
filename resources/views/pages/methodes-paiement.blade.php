@@ -12,12 +12,7 @@
     {
       "@type": "Question",
       "name": "Quels moyens de paiement sont acceptés sur TutinGo ?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Vous pouvez recharger votre solde en espèces, par carte bancaire via Payzone (CMI, Visa, Mastercard) ou avec PayPal. Vous pouvez aussi payer votre professeur directement en espèces s'il accepte ce mode de paiement." }
-    },
-    {
-      "@type": "Question",
-      "name": "Puis-je payer mon professeur directement en espèces ?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Oui, si votre professeur accepte ce mode de paiement. Il confirme la réception dans TutinGo et votre cours est marqué comme payé." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Vous pouvez recharger votre solde en espèces, par carte bancaire via Payzone (CMI, Visa, Mastercard) ou avec PayPal." }
     },
     {
       "@type": "Question",
@@ -117,18 +112,12 @@
                     <div class="text-4xl" aria-hidden="true">💵</div>
                     <h3 class="mt-4 text-lg font-semibold text-gray-900">Espèces</h3>
                     <p class="mt-1 text-sm text-gray-500">Sans carte bancaire</p>
-                    <p class="mt-4 font-medium text-gray-900">Option 1 — Recharge en espèces</p>
-                    <ul class="mt-2 space-y-2 text-gray-600">
+                    <ul class="mt-4 space-y-2 text-gray-600">
                         <li>✔ Vous recevez une <strong>référence de paiement</strong> par e-mail et SMS</li>
                         <li>✔ Vous payez en espèces dans un point de paiement indiqué, en donnant la référence</li>
                         <li>✔ Votre solde est crédité dès que votre paiement est vérifié</li>
                     </ul>
-                    <p class="mt-4 font-medium text-gray-900">Option 2 — Espèces remises au professeur</p>
-                    <ul class="mt-2 space-y-2 text-gray-600">
-                        <li>✔ Uniquement si votre professeur accepte ce mode de paiement</li>
-                        <li>✔ Le professeur confirme la réception du paiement dans TutinGo</li>
-                        <li>✔ Votre cours est alors marqué comme payé</li>
-                    </ul>
+                    <p class="mt-4 text-sm text-gray-500">Pensez à payer avant la date limite indiquée avec votre référence.</p>
                 </article>
 
             </div>
@@ -143,18 +132,15 @@
                 <ul class="mt-4 space-y-2 text-gray-600">
                     <li>• Rechargez votre solde avant de réserver, ou directement au moment de la réservation si votre solde est insuffisant.</li>
                     <li>• Votre solde n'expire pas : utilisez-le pour tous vos prochains cours.</li>
-                    <li>• Si vous payez votre professeur directement en espèces, vérifiez qu'il a bien confirmé la réception dans TutinGo : c'est votre preuve de paiement.</li>
                     <li>• Retrouvez l'historique de vos recharges et téléchargez vos reçus dans « Mon portefeuille ».</li>
                 </ul>
             </div>
             <div class="rounded-xl border border-gray-200 p-6">
                 <h2 class="text-xl font-bold text-gray-900">👩‍🏫 Professeurs</h2>
                 <ul class="mt-4 space-y-2 text-gray-600">
-                    <li>• <strong>Paiement via TutinGo</strong> (carte, PayPal, recharge en espèces) : vos cours sont payés par la plateforme et vos gains apparaissent dans votre espace professeur.</li>
-                    <li>• <strong>Espèces reçues directement</strong> : si vous acceptez ce mode, vous encaissez vous-même le paiement de l'élève. Une fois que vous avez confirmé la réception dans TutinGo, vous en êtes responsable.</li>
-                    <li>• Pour ces cours payés en direct, la commission TutinGo est déduite de votre compte professeur. Si votre solde ne suffit pas, le montant reste dû jusqu'à votre prochaine recharge.</li>
-                    <li>• Ne confirmez une réception d'espèces qu'après avoir réellement reçu l'argent.</li>
-                    <li>• Pour toute question sur vos gains ou votre commission, contactez notre équipe depuis votre espace.</li>
+                    <li>• Vous n'avez pas à gérer d'argent avec vos élèves : les cours sont payés via TutinGo.</li>
+                    <li>• Vos gains apparaissent dans votre espace professeur après chaque cours effectué.</li>
+                    <li>• Pour toute question sur vos versements, contactez notre équipe depuis votre espace.</li>
                 </ul>
             </div>
         </div>
@@ -190,7 +176,7 @@
         <div class="mt-8 space-y-4">
             <details class="rounded-lg border border-gray-200 p-4">
                 <summary class="cursor-pointer font-semibold text-gray-900">Quels moyens de paiement sont acceptés ?</summary>
-                <p class="mt-2 text-gray-600">Les espèces, la carte bancaire via Payzone (CMI, Visa, Mastercard) et PayPal. Vous pouvez aussi payer votre professeur directement en espèces s'il accepte ce mode de paiement.</p>
+                <p class="mt-2 text-gray-600">Les espèces, la carte bancaire via Payzone (CMI, Visa, Mastercard) et PayPal.</p>
             </details>
             <details class="rounded-lg border border-gray-200 p-4">
                 <summary class="cursor-pointer font-semibold text-gray-900">En combien de temps mon solde est-il crédité ?</summary>
@@ -207,14 +193,6 @@
             <details class="rounded-lg border border-gray-200 p-4">
                 <summary class="cursor-pointer font-semibold text-gray-900">Mon paiement en espèces a dépassé la date limite, est-ce grave ?</summary>
                 <p class="mt-2 text-gray-600">La référence n'est plus valable : créez simplement une nouvelle demande de recharge.</p>
-            </details>
-            <details class="rounded-lg border border-gray-200 p-4">
-                <summary class="cursor-pointer font-semibold text-gray-900">Puis-je payer mon professeur directement en espèces ?</summary>
-                <p class="mt-2 text-gray-600">Oui, si votre professeur accepte ce mode de paiement. Il confirme la réception dans TutinGo et votre cours est marqué comme payé. Ne payez jamais un cours en espèces sans cette confirmation.</p>
-            </details>
-            <details class="rounded-lg border border-gray-200 p-4">
-                <summary class="cursor-pointer font-semibold text-gray-900">Je suis professeur : comment fonctionne la commission sur les cours payés en espèces ?</summary>
-                <p class="mt-2 text-gray-600">Quand vous confirmez un paiement en espèces reçu directement, la commission TutinGo est déduite de votre compte professeur. Si votre solde est insuffisant, elle reste due et est déduite lors de votre prochaine recharge.</p>
             </details>
             <details class="rounded-lg border border-gray-200 p-4">
                 <summary class="cursor-pointer font-semibold text-gray-900">Puis-je être remboursé ?</summary>
