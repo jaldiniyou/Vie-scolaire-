@@ -92,42 +92,6 @@
 <body>
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <!-- Avatar de professeure (~40 ans) : chignon grisonnant, lunettes, blazer, livre de maths -->
-    <symbol id="teacher" viewBox="-50 -50 100 100" overflow="visible">
-      <circle cx="0" cy="-38" r="10" fill="#2E1D14"/>
-      <path d="M-24,-4 Q-26,-36 0,-36 Q26,-36 24,-4 Q22,6 18,8 L-18,8 Q-22,6 -24,-4 Z" fill="#2E1D14"/>
-      <path d="M-42,52 Q-42,20 0,17 Q42,20 42,52 Z" fill="#3B1F8F"/>
-      <path d="M-11,17 L0,34 L11,17 Z" fill="#FFFFFF"/>
-      <path d="M-11,17 L-4,40 L-17,23 Z M11,17 L4,40 L17,23 Z" fill="#5530B8"/>
-      <rect x="-7" y="4" width="14" height="15" rx="4" fill="#D9A07C"/>
-      <ellipse cx="-20" cy="-7" rx="3.5" ry="5" fill="#E8B48F"/>
-      <ellipse cx="20" cy="-7" rx="3.5" ry="5" fill="#E8B48F"/>
-      <circle cx="-20.5" cy="-0.5" r="2.2" fill="#FFFFFF" stroke="#D8D2E8" stroke-width=".6"/>
-      <circle cx="20.5" cy="-0.5" r="2.2" fill="#FFFFFF" stroke="#D8D2E8" stroke-width=".6"/>
-      <ellipse cx="0" cy="-9" rx="19.5" ry="23" fill="#EDBA95"/>
-      <path d="M-21,-8 Q-23,-34 0,-35 Q23,-34 21,-8 Q19,-20 12,-25 Q0,-30 -10,-25 Q-18,-20 -21,-8 Z" fill="#2E1D14"/>
-      <path d="M-17,-22 Q-11,-29 -3,-30 M11,-28 Q16,-25 18,-19" fill="none" stroke="#8E847D" stroke-width="1.3" stroke-linecap="round" opacity=".85"/>
-      <path d="M-15,-19 Q-9,-22 -3,-19.5 M15,-19 Q9,-22 3,-19.5" fill="none" stroke="#2E1D14" stroke-width="2.3" stroke-linecap="round"/>
-      <path d="M-18,-10 L-21,-9 M-18,-7 L-21,-5 M18,-10 L21,-9 M18,-7 L21,-5" stroke="#C98D6A" stroke-width="1" stroke-linecap="round"/>
-      <circle cx="-8.5" cy="-10" r="1.8" fill="#14112A"/>
-      <circle cx="8.5" cy="-10" r="1.8" fill="#14112A"/>
-      
-      <rect x="-15.5" y="-15" width="13" height="10" rx="3" fill="#FFFFFF" fill-opacity=".25" stroke="#6433DD" stroke-width="2"/>
-      <rect x="2.5" y="-15" width="13" height="10" rx="3" fill="#FFFFFF" fill-opacity=".25" stroke="#6433DD" stroke-width="2"/>
-      <path d="M-2.5,-11 Q0,-12.5 2.5,-11" fill="none" stroke="#6433DD" stroke-width="1.8"/>
-      <path d="M0.5,-5 Q2.5,0 -1,1" fill="none" stroke="#C98D6A" stroke-width="1.3" stroke-linecap="round"/>
-      <path d="M-9,1 Q-10.5,5 -8,8 M9,1 Q10.5,5 8,8" fill="none" stroke="#C98D6A" stroke-width="1" stroke-linecap="round" opacity=".6"/>
-      <circle cx="-13" cy="1" r="3.4" fill="#E88C80" opacity=".35"/>
-      <circle cx="13" cy="1" r="3.4" fill="#E88C80" opacity=".35"/>
-      <path d="M-5.5,4.5 Q0,8.5 5.5,4.5" fill="none" stroke="#A3403A" stroke-width="2.3" stroke-linecap="round"/>
-      <!-- livre -->
-      <g transform="translate(22,36) rotate(-12)">
-        <rect x="-13" y="-17" width="26" height="32" rx="3" fill="#B79CFF" stroke="#6433DD" stroke-width="1.5"/>
-        <rect x="-13" y="10" width="26" height="5" fill="#FFFFFF"/>
-        <text x="0" y="3" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="12" fill="#14112A">x²</text>
-      </g>
-      <ellipse cx="13" cy="46" rx="7" ry="6" fill="#F2C29E"/>
-    </symbol>
     <symbol id="house" viewBox="-40 -40 80 80" overflow="visible">
       <ellipse cx="0" cy="30" rx="32" ry="4" fill="#000" opacity=".12"/>
       <rect x="-24" y="-6" width="48" height="35" rx="2" fill="#FFF6E8" stroke="#14112A" stroke-width="2.5"/>
@@ -144,7 +108,8 @@
     <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 10a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-10V3" fill="none" stroke="#14112A" stroke-width="2" stroke-linejoin="round"/><path d="M7.2 15h9.6l2 4a1.2 1.2 0 0 1-1 2H6.2a1.2 1.2 0 0 1-1-2Z" fill="#22C55E"/></symbol>
     <symbol id="i-cap-w" viewBox="0 0 24 24"><path d="M12 5 23 10 12 15 1 10Z" fill="#fff"/><path d="M6 12.5v4c3 2.5 9 2.5 12 0v-4L12 15Z" fill="#fff"/></symbol>
     <symbol id="i-cross" viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6Z" fill="#fff"/></symbol>
-    <clipPath id="pinclip"><circle id="pinclipc" cx="0" cy="0" r="90"/></clipPath>
+    <clipPath id="avclip"><circle cx="0" cy="-40" r="26"/></clipPath>
+    <radialGradient id="radarGrad"><stop offset="0" stop-color="#751AE4" stop-opacity=".02"/><stop offset=".85" stop-color="#751AE4" stop-opacity=".12"/><stop offset="1" stop-color="#751AE4" stop-opacity=".2"/></radialGradient>
   </defs>
 </svg>
 
@@ -167,24 +132,35 @@
           <g id="drifters"></g>
           <path id="routeHalo" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
           <path id="route" fill="none" stroke="#751AE4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          <g id="radar">
+            <circle r="158" fill="url(#radarGrad)"/>
+            <circle r="158" fill="none" stroke="#6433DD" stroke-width="2" opacity=".55"/>
+            <circle r="105" fill="none" stroke="#6433DD" stroke-width="1.2" stroke-dasharray="4 5" opacity=".35"/>
+            <circle r="52" fill="none" stroke="#6433DD" stroke-width="1.2" stroke-dasharray="4 5" opacity=".35"/>
+            <circle id="radarPulse" r="158" fill="none" stroke="#751AE4" stroke-width="3"/>
+            <g id="sweep"></g>
+          </g>
           <g id="houseG">
             <use href="#house" x="-40" y="-40" width="80" height="80"/>
-            <text id="houseLabel" x="0" y="-46" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="17"
-              fill="#14112A" stroke="#fff" stroke-width="5" paint-order="stroke">Chez vous</text>
+            <text id="houseLabel" x="0" y="52" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="15"
+              fill="#14112A" stroke="#fff" stroke-width="5" paint-order="stroke">Chez Yasmine</text>
             <g id="check">
               <circle cx="0" cy="0" r="12" fill="#22C55E" stroke="#fff" stroke-width="3"/>
               <path d="M-5,0 L-1.5,4 L5.5,-4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             </g>
           </g>
-          <circle id="pulse" r="40" fill="none" stroke="#6433DD" stroke-width="3"/>
-          <g id="teacherG">
-            <line id="stem" x1="0" y1="40" x2="0" y2="70" stroke="#751AE4" stroke-width="7" stroke-linecap="round"/>
-            <circle id="pinDisc" r="47" fill="#E6DCFF" stroke="#6433DD" stroke-width="5"/>
-            <g clip-path="url(#pinclip)"><use href="#teacher" x="-50" y="-50" width="100" height="100"/></g>
+          <g id="pins"></g>
+          <g id="bubble">
+            <rect x="-104" y="-19" width="208" height="38" rx="19" fill="#fff" stroke="#6433DD" stroke-width="2"/>
+            <path d="M-8,18 L0,30 L8,18 Z" fill="#fff" stroke="#6433DD" stroke-width="2" stroke-linejoin="round"/>
+            <rect x="-9" y="15" width="18" height="5" fill="#fff"/>
+            <use href="#i-book" x="-94" y="-9" width="18" height="18"/>
+            <text x="14" y="5" text-anchor="middle" font-family="Poppins" font-weight="700" font-size="13" fill="#14112A">Demande : cours de Maths</text>
           </g>
-          <g id="chipG">
-            <rect x="-78" y="-17" width="156" height="34" rx="17" fill="#fff" stroke="#E3E8F2" stroke-width="1.5"/>
-            <text x="0" y="6" text-anchor="middle" font-family="Poppins" font-weight="700" font-size="13.5" fill="#14112A">Prof de Maths <tspan fill="#E69A00">★ 4.9</tspan></text>
+          <g id="searchChip">
+            <rect x="-90" y="-15" width="180" height="30" rx="15" fill="#14112A"/>
+            <circle id="searchDot" cx="-72" cy="0" r="6" fill="#B79CFF"/>
+            <text id="searchTxt" x="8" y="4.5" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="12" fill="#fff">Recherche d'un prof…</text>
           </g>
           <g id="controls">
             <circle cx="400" cy="402" r="17" fill="#fff" stroke="#E3E8F2"/>
@@ -206,7 +182,7 @@
           <div class="hint">Glissez vers le haut pour voir tous nos profs</div>
           <div class="tabs"><div class="tab on">À domicile</div><div class="tab">En ligne</div><div class="tab">Stage</div></div>
           <div class="card" id="card">
-            <div class="av"><svg viewBox="-50 -50 100 100" width="50" height="50"><use href="#teacher" x="-50" y="-44" width="100" height="100"/></svg></div>
+            <div class="av"><img src="avatars/prof-femme.jpg" width="50" height="50" alt=""></div>
             <div><div class="name">Sara B.</div><div class="meta">Mathématiques · 2ème Bac</div></div>
             <div class="right"><div class="star">★ 4.9</div><div class="price">150 DH/h</div></div>
           </div>
@@ -328,8 +304,9 @@ const drifters = [
   return { g, a, b, sp, off };
 });
 
-// --- Itinéraire prof -> maison ---
-const R = [[365, 150], [365, 380], [170, 380], [170, 265], [125, 265]];
+// --- Itinéraire prof -> maison de l'élève ---
+const HOUSE = [180, 300], RADAR_R = 158;
+const R = [[312, 205], [312, 265], [215, 265], [215, 300]];
 const segs = []; let L = 0;
 for (let i = 1; i < R.length; i++) { const d = Math.hypot(R[i][0] - R[i - 1][0], R[i][1] - R[i - 1][1]); segs.push(d); L += d; }
 const routeD = 'M' + R.map(p => p.join(',')).join(' L');
@@ -342,6 +319,39 @@ function along(f) {
   }
 }
 
+// Balayage du radar : secteurs de plus en plus transparents derrière la ligne
+for (let i = 0; i < 10; i++) {
+  const a0 = -i * 4 * Math.PI / 180, a1 = -(i + 1) * 4 * Math.PI / 180;
+  el('path', { d: `M0,0 L${RADAR_R * Math.cos(a0)},${RADAR_R * Math.sin(a0)} A${RADAR_R},${RADAR_R} 0 0 0 ${RADAR_R * Math.cos(a1)},${RADAR_R * Math.sin(a1)} Z`,
+    fill: '#751AE4', opacity: .22 * (1 - i / 10) }, $('sweep'));
+}
+el('line', { x1: 0, y1: 0, x2: RADAR_R, y2: 0, stroke: '#751AE4', 'stroke-width': 2.5, 'stroke-linecap': 'round' }, $('sweep'));
+
+// Épingles avatar (pointe en 0,0 ; photo au-dessus)
+function makePin(img, label, color = '#6433DD') {
+  const g = el('g', {}, $('pins'));
+  el('ellipse', { cx: 0, cy: 1, rx: 8, ry: 3, fill: '#000', opacity: .15 }, g);
+  el('path', { d: 'M-10,-17 L0,0 L10,-17 Z', fill: color }, g);
+  const ring = el('circle', { cx: 0, cy: -40, r: 29.5, fill: '#fff', stroke: color, 'stroke-width': 4.5 }, g);
+  el('image', { href: img, x: -26, y: -66, width: 52, height: 52, 'clip-path': 'url(#avclip)', preserveAspectRatio: 'xMidYMid slice' }, g);
+  let chip = null;
+  if (label) {
+    chip = el('g', {}, g);
+    el('rect', { x: -52, y: 6, width: 104, height: 24, rx: 12, fill: '#fff', stroke: '#E3DEF0', 'stroke-width': 1.2 }, chip);
+    const tx = el('text', { x: 0, y: 22, 'text-anchor': 'middle', 'font-family': 'Poppins', 'font-weight': 700, 'font-size': 11, fill: '#14112A' }, chip);
+    tx.innerHTML = label;
+  }
+  return { g, ring, chip };
+}
+const pinAt = deg => [HOUSE[0] + RADAR_R * Math.cos(deg * Math.PI / 180), HOUSE[1] + RADAR_R * Math.sin(deg * Math.PI / 180)];
+const student = makePin('avatars/eleve.jpg', null, '#751AE4');
+const profH = makePin('avatars/prof-homme.jpg', 'Physique <tspan fill="#E69A00">★ 4.8</tspan>');
+const profF = makePin('avatars/prof-femme.jpg', 'Maths <tspan fill="#E69A00">★ 4.9</tspan>');
+const accept = el('g', {}, profF.g);
+el('rect', { x: -44, y: -98, width: 88, height: 24, rx: 12, fill: '#22C55E' }, accept);
+el('text', { x: 0, y: -81.5, 'text-anchor': 'middle', 'font-family': 'Poppins', 'font-weight': 700, 'font-size': 11.5, fill: '#fff' }, accept).textContent = 'Accepté ✓';
+const P_H = pinAt(150.3), P_F = R[0];
+
 // --- Icônes flottantes sur le fond ---
 const floaters = [[625, 92, 'i-book', -12], [1000, 120, 'i-cap', 10], [990, 975, 'i-pencil', -8], [640, 1000, 'i-math', 8], [830, 60, 'i-flask', -10]]
   .map(([x, y, ic, r], i) => {
@@ -350,14 +360,14 @@ const floaters = [[625, 92, 'i-book', -12], [1000, 120, 'i-cap', 10], [990, 975,
     $('floaters').appendChild(d); return { d, x, y, r, i };
   });
 
-const P_MAP = [14 + 216, 14 + 260], P_PHONE = [230, 470];
+const P_MAP = [14 + 200, 14 + 270], P_PHONE = [230, 470];
 const set = (id, attr, v) => $(id).setAttribute(attr, v);
 const show = (node, o, tr = '') => { node.style.opacity = o; node.style.transform = tr; };
 
 function render(t) {
   // Caméra : gros plan sur le plan -> dézoom sur le téléphone -> glisse à gauche
-  const zA = lerp(2.66, 2.5, outCubic(prog(t, 0, 5.2)));
-  const p = inOutCubic(prog(t, 5.0, 7.1));
+  const zA = lerp(2.62, 2.48, outCubic(prog(t, 0, 5.6)));
+  const p = inOutCubic(prog(t, 5.6, 7.4));
   const k = zA * Math.pow(1 / zA, p);
   const P = [lerp(P_MAP[0], P_PHONE[0], p), lerp(P_MAP[1], P_PHONE[1], p)];
   const q = inOutCubic(prog(t, 7.7, 8.8));
@@ -370,45 +380,59 @@ function render(t) {
     d.g.setAttribute('transform', `translate(${lerp(d.a[0], d.b[0], f)},${lerp(d.a[1], d.b[1], f)})`);
   });
 
-  // Prof : apparition, réduction en épingle, puis trajet jusqu'à la maison
-  const a = outBack(prog(t, 0.25, 0.95));
-  const b = inOutCubic(prog(t, 2.5, 3.3));
-  const c = inOutCubic(prog(t, 4.2, 5.8));
-  const PIN_UP = 36;
-  let pos = [lerp(216, R[0][0], b), lerp(248, R[0][1] - PIN_UP, b)];
-  if (c > 0) { const r = along(c); pos = [r[0], r[1] - PIN_UP]; }
-  const side = inOutCubic(prog(t, 5.8, 6.3));
-  if (side > 0) pos = [lerp(pos[0], 178, side), lerp(pos[1], 222, side)];
-  const hop = c > 0 && c < 1 ? Math.abs(Math.sin(c * Math.PI * 7)) * 4 : 0;
-  const s = a * lerp(.98, .52, b) * lerp(1, .85, side);
-  set('teacherG', 'transform', `translate(${pos[0]},${pos[1] - hop}) scale(${s})`);
-  set('pinclipc', 'r', lerp(90, 44, b));
-  $('pinDisc').style.opacity = b;
-  $('stem').style.opacity = b;
+  // Maison + élève qui demande un cours
+  const hs = outBack(prog(t, 0.15, 0.7));
+  const cs = outBack(prog(t, 5.45, 5.9), 2.6);
+  const arrive = Math.sin(prog(t, 5.4, 5.85) * Math.PI) * .15;
+  set('houseG', 'transform', `translate(${HOUSE[0]},${HOUSE[1]}) scale(${hs * (1 + arrive)})`);
+  const ls = outBack(prog(t, 0.45, 0.9));
+  $('houseLabel').style.opacity = clamp(ls * 2);
+  set('houseLabel', 'transform', `translate(0,${(1 - ls) * -8})`);
+  set('check', 'transform', `translate(0,-44) scale(${cs})`);
+  const st = outBack(prog(t, 0.4, 0.95));
+  student.g.setAttribute('transform', `translate(122,${318 - Math.max(0, Math.sin(t * 4)) * 2 * (t < 1.2 ? 0 : 1)}) scale(${st * .9})`);
+  const bu = outBack(prog(t, 0.85, 1.3)) * (1 - prog(t, 2.9, 3.15));
+  set('bubble', 'transform', `translate(140,${212 + (1 - bu) * 10}) scale(${bu})`);
+  $('bubble').style.opacity = clamp(bu * 2);
 
-  const pp = prog(t, 0.7, 1.9);
-  set('pulse', 'transform', `translate(216,248) scale(${lerp(.9, 2.1, outCubic(pp))})`);
-  $('pulse').style.opacity = pp > 0 ? (1 - pp) * .6 : 0;
+  // Radar qui cherche un prof
+  const ra = outBack(prog(t, 1.2, 1.75), 1.2) * (1 - inOutCubic(prog(t, 3.2, 3.7)));
+  set('radar', 'transform', `translate(${HOUSE[0]},${HOUSE[1]}) scale(${ra})`);
+  $('radar').style.opacity = clamp(ra);
+  set('sweep', 'transform', `rotate(${t * 260})`);
+  const pf = (t * 1.1) % 1;
+  set('radarPulse', 'r', RADAR_R * pf); $('radarPulse').style.opacity = (1 - pf) * .5;
+  const sc = outBack(prog(t, 1.4, 1.8)) * (1 - prog(t, 3.5, 3.8));
+  set('searchChip', 'transform', `translate(${HOUSE[0]},${150 - (1 - sc) * 10}) scale(${sc})`);
+  $('searchChip').style.opacity = clamp(sc * 2);
+  const found = t >= 2.95;
+  $('searchTxt').textContent = found ? 'Prof trouvé !' : "Recherche d'un prof" + '.'.repeat(1 + Math.floor(t * 3) % 3);
+  set('searchDot', 'fill', found ? '#22C55E' : '#B79CFF');
+  $('searchDot').style.opacity = found ? 1 : .4 + .6 * Math.abs(Math.sin(t * 5));
 
-  const ci = outBack(prog(t, 0.95, 1.4)) * (1 - prog(t, 2.35, 2.6));
-  set('chipG', 'transform', `translate(216,${330 + (1 - ci) * 10}) scale(${ci})`);
-  $('chipG').style.opacity = clamp(ci * 2);
+  // Les deux profs apparaissent sur le cercle ; la prof accepte
+  const hIn = outBack(prog(t, 1.75, 2.2)), hOut = inOutCubic(prog(t, 3.1, 3.5));
+  profH.g.setAttribute('transform', `translate(${P_H[0]},${P_H[1]}) scale(${hIn * (1 - hOut) * .85})`);
+  profH.g.style.opacity = 1 - hOut;
+  const fIn2 = outBack(prog(t, 2.0, 2.45));
+  const acc = outBack(prog(t, 2.9, 3.3), 2.4);
+  const bump = 1 + Math.sin(prog(t, 2.9, 3.25) * Math.PI) * .18;
+  const c = inOutCubic(prog(t, 3.9, 5.4));
+  const side = inOutCubic(prog(t, 5.4, 5.8));
+  let pos = c > 0 ? along(c) : P_F;
+  if (side > 0) pos = [lerp(pos[0], 244, side), lerp(pos[1], 312, side)];
+  const hop = c > 0 && c < 1 ? Math.abs(Math.sin(c * Math.PI * 6)) * 4 : 0;
+  profF.g.setAttribute('transform', `translate(${pos[0]},${pos[1] - hop}) scale(${fIn2 * bump * lerp(.85, .78, side)})`);
+  profF.ring.setAttribute('stroke', t >= 2.95 ? '#22C55E' : '#6433DD');
+  accept.setAttribute('transform', `translate(0,${(1 - acc) * 10}) scale(${acc})`);
+  accept.style.opacity = clamp(acc * 2) * (1 - prog(t, 3.8, 4.1));
+  profF.chip.style.opacity = 1 - prog(t, 3.6, 3.9);
 
   // Itinéraire
-  const dr = inOutCubic(prog(t, 3.1, 4.2));
+  const dr = inOutCubic(prog(t, 3.3, 4.0));
   const consumed = c * L, drawn = dr * L;
   ['route', 'routeHalo'].forEach(id => set(id, 'stroke-dasharray', `0 ${consumed} ${Math.max(0, drawn - consumed)} ${L * 3}`));
   $('route').style.opacity = $('routeHalo').style.opacity = dr > 0 ? 1 : 0;
-
-  // Maison
-  const hs = outBack(prog(t, 2.9, 3.5));
-  const arrive = Math.sin(prog(t, 5.8, 6.25) * Math.PI) * .15;
-  set('houseG', 'transform', `translate(125,232) scale(${hs * (1 + arrive)})`);
-  const ls = outBack(prog(t, 3.25, 3.7));
-  $('houseLabel').style.opacity = clamp(ls * 2);
-  set('houseLabel', 'transform', `translate(0,${(1 - ls) * 8})`);
-  const cs = outBack(prog(t, 5.95, 6.4), 2.6);
-  set('check', 'transform', `translate(-26,-24) scale(${cs})`);
 
   // Bandeau "Cours confirmé"
   const tc = outBack(prog(t, 6.5, 7.0));
