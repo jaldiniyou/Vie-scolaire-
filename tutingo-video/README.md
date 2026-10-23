@@ -1,6 +1,6 @@
 # Vidéo motion design TutinGo
 
-`tutingo-motion.mp4` : 14 s, 1080×1080, 30 i/s, musique (`music.m4a`, reprise de la vidéo d'exemple) + bruitages.
+`tutingo-motion.mp4` : 14 s, 1080×1080, 30 i/s, musique originale libre de droits (`music.wav`, générée par `make-music.py`) + bruitages.
 
 Déroulé : une prof apparaît sur le plan → elle devient une épingle → l'itinéraire se trace jusqu'à « Chez vous » → elle arrive (✓) → dézoom sur l'appli TutinGo → le téléphone glisse à gauche, logo + accroche + tutingo.com.
 
@@ -11,6 +11,7 @@ Déroulé : une prof apparaît sur le plan → elle devient une épingle → l'i
 
 ```sh
 npm i playwright-core            # Chromium requis
+python3 make-music.py            # musique -> music.wav (numpy + scipy)
 ./make-sfx.sh                    # bruitages -> sfx.wav (optionnel)
 node render.mjs                  # -> tutingo-motion.mp4
 node render.mjs --preview 1,5,9  # images fixes pour vérifier

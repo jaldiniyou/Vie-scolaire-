@@ -21,7 +21,7 @@ const logo = existsSync(join(here, 'logo.svg'))
   ? readFileSync(join(here, 'logo.svg'), 'utf8')
   : '<img src="logo.png" alt="TutinGo">';
 const built = join(here, '.scene.built.html');
-writeFileSync(built, readFileSync(join(here, 'scene.html'), 'utf8').replace('<!--LOGO-->', logo));
+writeFileSync(built, readFileSync(join(here, 'scene.html'), 'utf8').replaceAll('<!--LOGO-->', logo));
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
 const page = await browser.newPage({ viewport: { width: 1080, height: 1080 } });
@@ -41,8 +41,8 @@ rmSync(built);
 if (preview) {
   console.log(`Aperçus : ${framesDir}`);
 } else {
-  // Audio : music.m4a (musique) + sfx.wav (bruitages, plus discrets), fondu de sortie
-  const audio = ['music.m4a', 'sfx.wav'].map(f => join(here, f)).filter(existsSync);
+  // Audio : music.wav (musique originale, make-music.py) + sfx.wav (bruitages, plus discrets), fondu de sortie
+  const audio = ['music.wav', 'sfx.wav'].map(f => join(here, f)).filter(existsSync);
   const vol = audio.map(f => f.endsWith('sfx.wav') && audio.length > 1 ? 0.45 : 1);
   const mix = audio.map((_, i) => `[${i + 1}:a]volume=${vol[i]}[a${i}]`).join(';') + ';'
     + audio.map((_, i) => `[a${i}]`).join('') + `amix=inputs=${audio.length}:normalize=0,apad,atrim=0:${DURATION},`

@@ -39,6 +39,11 @@
     border-radius: 20px; background: #0E1220; z-index: 5; }
   #statusbar { position: absolute; top: 16px; left: 34px; right: 30px; display: flex; justify-content: space-between;
     font: 600 15px Poppins; color: #111; z-index: 4; }
+  #appbar { position: absolute; top: 52px; left: 16px; right: 16px; height: 46px; z-index: 3; background: #fff; border-radius: 23px;
+    box-shadow: 0 6px 16px rgba(60,30,140,.16); display: flex; align-items: center; gap: 10px; padding: 0 8px 0 16px; }
+  .applogo img, .applogo svg { height: 24px; width: auto; display: block; }
+  .appsearch { flex: 1; font: 400 11.5px Poppins; color: #8A93A6; border-left: 1.5px solid #ECE8F5; padding-left: 10px; }
+  .appme { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-2)); }
   #map { position: absolute; left: 0; top: 0; width: 432px; height: 520px; }
 
   #sheet { position: absolute; top: 488px; left: 0; right: 0; bottom: 0; background: #fff;
@@ -80,30 +85,41 @@
   #cta { margin-top: 34px; background: linear-gradient(90deg, var(--primary), var(--primary-2)); color: #fff; font: 700 22px Poppins; padding: 16px 30px;
     border-radius: 40px; box-shadow: 0 14px 30px rgba(100,51,221,.35); display: flex; gap: 10px; align-items: center; }
   #cta span { color: #D9CCFF; }
-  #subjects { display: flex; gap: 10px; margin-top: 26px; }
-  #subjects div { font: 600 15px Poppins; padding: 7px 14px; border-radius: 20px; border: 2px solid rgba(100,51,221,.35); color: var(--primary); }
+  #subjects { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; max-width: 470px; }
+  #subjects div { font: 700 23px Poppins; padding: 9px 20px; border-radius: 28px; background: #EDE5FF; border: 2px solid #D5C6FF; color: var(--primary); }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <!-- Avatar de professeure : lunettes, blazer, livre de maths sous le bras -->
+    <!-- Avatar de professeure (~40 ans) : chignon grisonnant, lunettes, blazer, livre de maths -->
     <symbol id="teacher" viewBox="-50 -50 100 100" overflow="visible">
-      <path d="M-27,-12 Q-32,24 -20,30 L20,30 Q32,24 27,-12 Z" fill="#3A2318"/>
+      <circle cx="0" cy="-38" r="10" fill="#2E1D14"/>
+      <path d="M-24,-4 Q-26,-36 0,-36 Q26,-36 24,-4 Q22,6 18,8 L-18,8 Q-22,6 -24,-4 Z" fill="#2E1D14"/>
       <path d="M-42,52 Q-42,20 0,17 Q42,20 42,52 Z" fill="#3B1F8F"/>
       <path d="M-11,17 L0,34 L11,17 Z" fill="#FFFFFF"/>
       <path d="M-11,17 L-4,40 L-17,23 Z M11,17 L4,40 L17,23 Z" fill="#5530B8"/>
-      <rect x="-7" y="4" width="14" height="15" rx="4" fill="#E2A982"/>
-      <ellipse cx="0" cy="-10" rx="20" ry="23" fill="#F2C29E"/>
-      <path d="M-23,-12 Q-22,-38 0,-37 Q23,-38 23,-12 Q20,-24 8,-27 Q-6,-21 -23,-12 Z" fill="#3A2318"/>
-      <circle cx="-14" cy="-1" r="3.6" fill="#F59A8E" opacity=".55"/>
-      <circle cx="14" cy="-1" r="3.6" fill="#F59A8E" opacity=".55"/>
-      <circle cx="-8" cy="-9" r="6.4" fill="#FFFFFF" fill-opacity=".35" stroke="#14112A" stroke-width="2"/>
-      <circle cx="8" cy="-9" r="6.4" fill="#FFFFFF" fill-opacity=".35" stroke="#14112A" stroke-width="2"/>
-      <path d="M-1.6,-9 L1.6,-9" stroke="#14112A" stroke-width="2"/>
-      <circle cx="-8" cy="-9" r="1.8" fill="#14112A"/>
-      <circle cx="8" cy="-9" r="1.8" fill="#14112A"/>
-      <path d="M-6,3 Q0,8 6,3" fill="none" stroke="#B5524A" stroke-width="2" stroke-linecap="round"/>
+      <rect x="-7" y="4" width="14" height="15" rx="4" fill="#D9A07C"/>
+      <ellipse cx="-20" cy="-7" rx="3.5" ry="5" fill="#E8B48F"/>
+      <ellipse cx="20" cy="-7" rx="3.5" ry="5" fill="#E8B48F"/>
+      <circle cx="-20.5" cy="-0.5" r="2.2" fill="#FFFFFF" stroke="#D8D2E8" stroke-width=".6"/>
+      <circle cx="20.5" cy="-0.5" r="2.2" fill="#FFFFFF" stroke="#D8D2E8" stroke-width=".6"/>
+      <ellipse cx="0" cy="-9" rx="19.5" ry="23" fill="#EDBA95"/>
+      <path d="M-21,-8 Q-23,-34 0,-35 Q23,-34 21,-8 Q19,-20 12,-25 Q0,-30 -10,-25 Q-18,-20 -21,-8 Z" fill="#2E1D14"/>
+      <path d="M-17,-22 Q-11,-29 -3,-30 M11,-28 Q16,-25 18,-19" fill="none" stroke="#8E847D" stroke-width="1.3" stroke-linecap="round" opacity=".85"/>
+      <path d="M-15,-19 Q-9,-22 -3,-19.5 M15,-19 Q9,-22 3,-19.5" fill="none" stroke="#2E1D14" stroke-width="2.3" stroke-linecap="round"/>
+      <path d="M-18,-10 L-21,-9 M-18,-7 L-21,-5 M18,-10 L21,-9 M18,-7 L21,-5" stroke="#C98D6A" stroke-width="1" stroke-linecap="round"/>
+      <circle cx="-8.5" cy="-10" r="1.8" fill="#14112A"/>
+      <circle cx="8.5" cy="-10" r="1.8" fill="#14112A"/>
+      
+      <rect x="-15.5" y="-15" width="13" height="10" rx="3" fill="#FFFFFF" fill-opacity=".25" stroke="#6433DD" stroke-width="2"/>
+      <rect x="2.5" y="-15" width="13" height="10" rx="3" fill="#FFFFFF" fill-opacity=".25" stroke="#6433DD" stroke-width="2"/>
+      <path d="M-2.5,-11 Q0,-12.5 2.5,-11" fill="none" stroke="#6433DD" stroke-width="1.8"/>
+      <path d="M0.5,-5 Q2.5,0 -1,1" fill="none" stroke="#C98D6A" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M-9,1 Q-10.5,5 -8,8 M9,1 Q10.5,5 8,8" fill="none" stroke="#C98D6A" stroke-width="1" stroke-linecap="round" opacity=".6"/>
+      <circle cx="-13" cy="1" r="3.4" fill="#E88C80" opacity=".35"/>
+      <circle cx="13" cy="1" r="3.4" fill="#E88C80" opacity=".35"/>
+      <path d="M-5.5,4.5 Q0,8.5 5.5,4.5" fill="none" stroke="#A3403A" stroke-width="2.3" stroke-linecap="round"/>
       <!-- livre -->
       <g transform="translate(22,36) rotate(-12)">
         <rect x="-13" y="-17" width="26" height="32" rx="3" fill="#B79CFF" stroke="#6433DD" stroke-width="1.5"/>
@@ -126,6 +142,8 @@
     <symbol id="i-abc" viewBox="0 0 24 24"><text x="12" y="16" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="10" fill="#6433DD">ABC</text></symbol>
     <symbol id="i-math" viewBox="0 0 24 24"><text x="12" y="17.5" text-anchor="middle" font-family="Poppins" font-weight="800" font-size="15" fill="#751AE4">x²</text></symbol>
     <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 10a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-10V3" fill="none" stroke="#14112A" stroke-width="2" stroke-linejoin="round"/><path d="M7.2 15h9.6l2 4a1.2 1.2 0 0 1-1 2H6.2a1.2 1.2 0 0 1-1-2Z" fill="#22C55E"/></symbol>
+    <symbol id="i-cap-w" viewBox="0 0 24 24"><path d="M12 5 23 10 12 15 1 10Z" fill="#fff"/><path d="M6 12.5v4c3 2.5 9 2.5 12 0v-4L12 15Z" fill="#fff"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6Z" fill="#fff"/></symbol>
     <clipPath id="pinclip"><circle id="pinclipc" cx="0" cy="0" r="90"/></clipPath>
   </defs>
 </svg>
@@ -139,10 +157,13 @@
       <div id="screen">
         <div id="island"></div>
         <div id="statusbar"><span>18:00</span><span>●●● ▮</span></div>
+        <div id="appbar"><div class="applogo"><!--LOGO--></div><div class="appsearch">Cours à domicile</div><div class="appme"></div></div>
         <svg id="map" viewBox="0 0 432 520">
-          <rect width="432" height="520" fill="#EDF1F6"/>
+          <rect width="432" height="520" fill="#F3F1EE"/>
+          <g id="blocks"></g>
           <g id="parks"></g>
           <g id="roads"></g>
+          <g id="labels"></g>
           <g id="drifters"></g>
           <path id="routeHalo" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
           <path id="route" fill="none" stroke="#751AE4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
@@ -205,7 +226,7 @@
     <div id="logo"><!--LOGO--></div>
     <div id="tag">Le bon prof,<br>chez vous.</div>
     <div id="tag-ar">الأستاذ المناسب، في بيتك</div>
-    <div id="subjects"><div>Maths</div><div>Physique</div><div>Langues</div></div>
+    <div id="subjects"><div>Maths</div><div>Physique</div><div>SVT</div><div>Français</div><div>Anglais</div><div>Arabe</div></div>
     <div id="cta"><span>www.</span>tutingo.com</div>
   </div>
 </div>
@@ -235,16 +256,70 @@ function drawCity(g, w, h, major, minor, color, sx = 1) {
   V.forEach(x => el('line', { x1: x * sx, y1: -20, x2: x * sx, y2: h + 20, stroke: color, 'stroke-width': major }, g));
   el('line', { x1: -20, y1: 340 * sx, x2: w + 20, y2: 200 * sx, stroke: color, 'stroke-width': major }, g);
 }
-[[60, 160, 90, 85], [272, 395, 80, 70], [300, 10, 55, 40], [10, 280, 32, 60]].forEach(([x, y, w, h]) =>
-  el('rect', { x, y, width: w, height: h, rx: 6, fill: '#D3ECD6' }, $('parks')));
-drawCity($('roads'), 432, 520, 9, 3.5, '#FFFFFF');
+// Plan façon carte réelle : îlots de bâtiments, parcs, boulevards, rond-point, noms de rues
+const XS = [-30, 50, 110, 170, 215, 260, 312, 365, 420, 470];
+const YS = [-30, 60, 105, 150, 205, 265, 320, 380, 430, 470, 550];
+const PARKS = ['6,6', '1,6', '8,1', '3,8'];
+for (let i = 0; i < XS.length - 1; i++) for (let j = 0; j < YS.length - 1; j++) {
+  const x0 = XS[i] + 6, x1 = XS[i + 1] - 6, y0 = YS[j] + 6, y1 = YS[j + 1] - 6;
+  if (PARKS.includes(`${i},${j}`)) {
+    el('rect', { x: x0, y: y0, width: x1 - x0, height: y1 - y0, rx: 5, fill: '#CFE8C6' }, $('parks'));
+    el('path', { d: `M${x0 + 4},${y1 - 6} Q${(x0 + x1) / 2},${y0 + 4} ${x1 - 4},${(y0 + y1) / 2}`, fill: 'none', stroke: '#F3F1EE', 'stroke-width': 2.5 }, $('parks'));
+    for (let k = 0; k < 7; k++) el('circle', { cx: lerp(x0 + 6, x1 - 6, rnd()), cy: lerp(y0 + 6, y1 - 6, rnd()), r: 2.5 + rnd() * 2.5, fill: '#B5DBA8' }, $('parks'));
+    continue;
+  }
+  const rows = y1 - y0 > 40 ? 2 : 1;
+  for (let r = 0; r < rows; r++) {
+    const ry0 = lerp(y0, y1, r / rows), ry1 = lerp(y0, y1, (r + 1) / rows);
+    let x = x0;
+    while (x < x1 - 6) {
+      const w = Math.min(x1 - x, 9 + rnd() * 16);
+      if (rnd() > .1) el('rect', { x: x + .8, y: ry0 + .8, width: w - 1.6, height: ry1 - ry0 - 1.6 - (rnd() < .3 ? 4 : 0), rx: 1,
+        fill: rnd() < .12 ? '#E3DEF0' : '#E6E2DC', stroke: '#D9D3CB', 'stroke-width': .6 }, $('blocks'));
+      x += w;
+    }
+  }
+}
+const BD = [[-40, 515], [560, 15]];
+const MAJOR_H = [265], MAJOR_V = [260];
+const roadLines = [
+  ...YS.slice(1, -1).map(y => [[-30, y], [462, y], MAJOR_H.includes(y)]),
+  ...XS.slice(1).map(x => [[x, -30], [x, 550], MAJOR_V.includes(x)]),
+  [BD[0], BD[1], true],
+];
+for (const pass of [0, 1]) for (const [p, q, major] of roadLines)
+  el('line', { x1: p[0], y1: p[1], x2: q[0], y2: q[1], 'stroke-linecap': 'round',
+    stroke: pass ? (major ? '#FFE7A0' : '#FFFFFF') : (major ? '#EBCB6E' : '#DDD7CF'),
+    'stroke-width': major ? (pass ? 11 : 13.5) : (pass ? 6 : 8) }, $('roads'));
+el('circle', { cx: 260, cy: 265, r: 17, fill: '#FFE7A0', stroke: '#EBCB6E', 'stroke-width': 2 }, $('roads'));
+el('circle', { cx: 260, cy: 265, r: 9, fill: '#CFE8C6', stroke: '#B5DBA8', 'stroke-width': 1.5 }, $('roads'));
+const label = (txt, x, y, rot = 0, opts = {}) => {
+  const t = el('text', { x, y, transform: `rotate(${rot} ${x} ${y})`, 'text-anchor': 'middle', 'font-family': 'Poppins',
+    'font-weight': opts.w || 600, 'font-size': opts.size || 7.5, fill: opts.fill || '#8A847C', 'letter-spacing': opts.ls || .2,
+    stroke: opts.halo || '#FFFFFF', 'stroke-width': 2.5, 'paint-order': 'stroke', dy: 2.6 }, $('labels'));
+  t.textContent = txt;
+};
+label('Bd Anfa', 330, 206, -39.8, { fill: '#8A6D1E', halo: '#FFE7A0' });
+label('Av. Hassan II', 330, 265, 0, { fill: '#8A6D1E', halo: '#FFE7A0' });
+label('Bd Zerktouni', 260, 410, 90, { fill: '#8A6D1E', halo: '#FFE7A0' });
+label('Rue Ibn Battouta', 312, 150, 90);
+label('Rue Abou Bakr', 215, 430);
+label('Rue Tarik', 80, 105);
+label('Rue Moulay Ali', 50, 225, 90);
+label('MAÂRIF', 140, 452, 0, { size: 11, w: 700, ls: 3, fill: '#A79FBD', halo: 'none' });
+label('Parc', 338, 350, 0, { fill: '#5E9A55', halo: 'none' });
+[[393, 292, '#6433DD', 'Lycée'], [80, 82, '#22A06B', 'Pharmacie']].forEach(([x, y, c, n]) => {
+  el('circle', { cx: x, cy: y, r: 6.5, fill: c, stroke: '#fff', 'stroke-width': 1.5 }, $('labels'));
+  el('use', { href: n === 'Lycée' ? '#i-cap-w' : '#i-cross', x: x - 4.5, y: y - 4.5, width: 9, height: 9 }, $('labels'));
+  label(n, x, y + 12, 0, { fill: c, w: 700, size: 7 });
+});
 seed = 11; drawCity($('bgpattern'), 1280, 1280, 22, 8, '#6433DD', 2.6);
 
 // --- Icônes qui circulent sur le plan (comme les voitures de la vidéo de référence) ---
 const icons = ['i-book', 'i-pencil', 'i-cap', 'i-abc', 'i-math', 'i-flask'];
 const drifters = [
   [[-20, 60], [452, 60], .9, 0], [[452, 150], [-20, 150], .7, .3], [[50, -20], [50, 540], .8, .6],
-  [[260, 540], [260, -20], .6, .1], [[-20, 470], [452, 470], .75, .5], [[-20, 340], [452, 200], .65, .8],
+  [[260, 540], [260, -20], .6, .1], [[-20, 470], [452, 470], .75, .5], [[-40, 515], [560, 15], .55, .8],
   [[170, -20], [170, 540], .55, .25], [[452, 380], [-20, 380], .5, .9],
 ].map(([a, b, sp, off], i) => {
   const g = el('g', {}, $('drifters'));
@@ -337,7 +412,7 @@ function render(t) {
 
   // Bandeau "Cours confirmé"
   const tc = outBack(prog(t, 6.5, 7.0));
-  set('topChip', 'transform', `translate(216,${lerp(20, 66, tc)}) scale(${lerp(.6, 1, tc)})`);
+  set('topChip', 'transform', `translate(216,${lerp(80, 122, tc)}) scale(${lerp(.6, 1, tc)})`);
   $('topChip').style.opacity = clamp(tc * 1.5);
 
   // Fiche prof : léger pulse, puis tap sur "Réserver"
@@ -368,9 +443,9 @@ function render(t) {
   const lg = outBack(prog(t, 8.2, 8.95), 1.6);
   const float = Math.sin(Math.max(0, t - 9) * 1.6) * 4;
   show($('logo'), clamp(lg * 1.4), `translate(${(1 - lg) * 120}px, ${float}px) rotate(${(1 - lg) * -10}deg) scale(${lerp(.7, 1, lg)})`);
-  [['tag', 8.75], ['tag-ar', 8.95], ['subjects', 9.15], ['cta', 9.4]].forEach(([id, t0]) => {
+  [['tag', 8.75], ['tag-ar', 8.95], ...[...$('subjects').children].map((n, i) => [n, 9.1 + i * .1]), ['cta', 9.8]].forEach(([id, t0]) => {
     const e = outBack(prog(t, t0, t0 + .5));
-    show($(id), clamp(e * 1.5), `translateY(${(1 - e) * 30}px) scale(${lerp(.85, 1, e)})`);
+    show(typeof id === 'string' ? $(id) : id, clamp(e * 1.5), `translateY(${(1 - e) * 30}px) scale(${lerp(.85, 1, e)})`);
   });
   const ctaPulse = 1 + Math.max(0, Math.sin((t - 11.5) * 3)) * .04 * (t > 11.5 ? 1 : 0);
   if (t > 9.9) $('cta').style.transform = `scale(${ctaPulse})`;
