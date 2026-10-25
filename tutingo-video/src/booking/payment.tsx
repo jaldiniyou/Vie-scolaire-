@@ -126,7 +126,7 @@ export const StepPayment: React.FC = () => (
 					marginBottom: 18,
 				}}
 			>
-				<Avatar initials="Y" hue={260} size={56} />
+				<Avatar name="yassine" size={56} />
 				<div style={{fontSize: 21, fontWeight: 800, color: BRAND.ink, lineHeight: 1.25}}>
 					Prof. Yassine · Maths
 					<div style={{fontWeight: 700, color: '#6B6680'}}>Mer 14 · 18:00 · 🏠 À domicile</div>

@@ -167,9 +167,9 @@ export const StepSearch: React.FC = () => {
 };
 
 const TEACHERS = [
-	{name: 'Prof. Yassine', initials: 'Y', hue: 260, subjects: ['Maths', 'Physique']},
-	{name: 'Prof. Salma', initials: 'S', hue: 320, subjects: ['Maths', 'SVT']},
-	{name: 'Prof. Karim', initials: 'K', hue: 200, subjects: ['Maths', 'Informatique']},
+	{name: 'Prof. Yassine', avatar: 'yassine' as const, subjects: ['Maths', 'Physique']},
+	{name: 'Prof. Salma', avatar: 'salma' as const, subjects: ['Maths', 'SVT']},
+	{name: 'Prof. Karim', avatar: 'karim' as const, subjects: ['Maths', 'Informatique']},
 ];
 
 const TeacherCard: React.FC<{t: (typeof TEACHERS)[number]; i: number; selectAt: number}> = ({t, i, selectAt}) => {
@@ -190,7 +190,7 @@ const TeacherCard: React.FC<{t: (typeof TEACHERS)[number]; i: number; selectAt: 
 			}}
 		>
 			<div style={{display: 'flex', gap: 18, alignItems: 'center'}}>
-				<Avatar initials={t.initials} hue={t.hue} />
+				<Avatar name={t.avatar} />
 				<div style={{flex: 1}}>
 					<div style={{fontSize: 28, fontWeight: 800, color: BRAND.ink}}>{t.name}</div>
 					<div style={{fontSize: 19, fontWeight: 700, color: '#1FAF5B'}}>✔ Diplômes & expérience vérifiés</div>
@@ -274,7 +274,7 @@ export const StepSchedule: React.FC = () => {
 			<StepHeader n={3} title="Choisis la date et l'heure" darija="ختار النهار والساعة" />
 			<Phone>
 				<div style={{display: 'flex', alignItems: 'center', gap: 16, marginBottom: 22}}>
-					<Avatar initials="Y" hue={260} size={70} />
+					<Avatar name="yassine" size={70} />
 					<div>
 						<div style={{fontSize: 26, fontWeight: 800, color: BRAND.ink}}>Prof. Yassine</div>
 						<div style={{fontSize: 19, fontWeight: 700, color: '#6B6680'}}>Maths · Physique</div>
