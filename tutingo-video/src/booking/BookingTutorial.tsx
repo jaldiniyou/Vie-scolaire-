@@ -66,7 +66,7 @@ export const BookingTutorial: React.FC<BookingProps> = ({durations, withVoice}) 
 			</TransitionSeries>
 			{starts.slice(1).map((f) => (
 				<Sequence key={f} from={f} durationInFrames={15}>
-					<Audio src={staticFile('sfx/whoosh.wav')} volume={0.6} />
+					<Audio src={staticFile('sfx/whoosh.wav')} volume={0.35} />
 				</Sequence>
 			))}
 			{withVoice

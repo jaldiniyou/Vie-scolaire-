@@ -241,7 +241,7 @@ export const StepScheduled: React.FC = () => {
 			</div>
 			<Sequence from={STATUS[3].at + 6}>
 				<Confetti />
-				<Audio src={staticFile('sfx/success.wav')} />
+				<Audio src={staticFile('sfx/success.wav')} volume={0.45} />
 			</Sequence>
 		</AbsoluteFill>
 	);

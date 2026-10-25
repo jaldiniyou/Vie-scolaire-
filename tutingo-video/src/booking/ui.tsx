@@ -344,7 +344,7 @@ export const Finger: React.FC<{points: {f: number; x: number; y: number}[]}> = (
 			</div>
 			{points.map((p) => (
 				<Sequence key={`s${p.f}`} from={p.f} durationInFrames={10}>
-					<Audio src={staticFile('sfx/tap.wav')} />
+					<Audio src={staticFile('sfx/tap.wav')} volume={0.3} />
 				</Sequence>
 			))}
 		</>
