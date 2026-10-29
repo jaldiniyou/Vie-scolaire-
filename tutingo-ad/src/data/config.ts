@@ -37,6 +37,17 @@ export const COLORS = {
 export const FONT_FAMILY_FALLBACK =
   'Poppins, Inter, "Helvetica Neue", Arial, sans-serif';
 
+// Police des textes en arabe : Cairo pour l'arabe, Poppins pour les mots
+// restés en lettres latines (TutinGo, vérifiés, qualité…).
+export const FONT_FAMILY_ARABIC = 'Cairo, Poppins, "Noto Sans Arabic", sans-serif';
+
+// Écriture des sous-titres et des textes darija à l'écran :
+// 'arabic' (lettres arabes, de droite à gauche) ou 'latin' (arabizi).
+export const SCRIPT: 'arabic' | 'latin' = 'arabic';
+
+// Grain filmique léger sur toute la vidéo (0 = désactivé).
+export const GRAIN_OPACITY = 0.07;
+
 // Affiche sur les placeholders le nom du fichier à ajouter. Mettre à false
 // pour un rendu final sans indications techniques.
 export const SHOW_PLACEHOLDER_HINTS = true;

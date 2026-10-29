@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Easing, interpolate, useCurrentFrame} from 'remotion';
 import {COLORS, SHOW_PLACEHOLDER_HINTS} from '../data/config';
 import type {Mood, Shot} from '../data/scenes';
 import {fontFamily} from './utils';
@@ -114,9 +114,24 @@ export const Placeholder: React.FC<{shot: Shot}> = ({shot}) => {
           strokeWidth={3.2}
           strokeLinecap="round"
           strokeLinejoin="round"
-          style={{opacity: interpolate(frame, [0, 12], [0, 0.9], {extrapolateRight: 'clamp'})}}
+          style={{opacity: 0.9}}
         >
-          {ICON_PATHS[shot.icon]}
+          {/* Le pictogramme se dessine trait par trait */}
+          {React.Children.map(
+            (ICON_PATHS[shot.icon] as React.ReactElement<{children: React.ReactNode}>).props.children,
+            (child, i) =>
+              React.isValidElement(child)
+                ? React.cloneElement(child as React.ReactElement<React.SVGProps<SVGElement>>, {
+                    pathLength: 1,
+                    strokeDasharray: 1,
+                    strokeDashoffset: interpolate(frame, [4 + i * 4, 26 + i * 4], [1, 0], {
+                      extrapolateLeft: 'clamp',
+                      extrapolateRight: 'clamp',
+                      easing: Easing.out(Easing.cubic),
+                    }),
+                  })
+                : child,
+          )}
         </svg>
         {SHOW_PLACEHOLDER_HINTS ? (
           <div

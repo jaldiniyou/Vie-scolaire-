@@ -12,10 +12,10 @@ import {
 } from 'remotion';
 import type {Camera, Scene as SceneData, Shot} from '../data/scenes';
 import {Placeholder} from './Placeholder';
-import {clamp, secToFrame} from './utils';
+import {clamp, easeOutExpo, secToFrame} from './utils';
 
 // Durée du fondu enchaîné entre deux plans d'une même scène (images).
-export const SHOT_CROSSFADE = 8;
+export const SHOT_CROSSFADE = 10;
 
 const cameraTransform = (camera: Camera, p: number) => {
   switch (camera) {
@@ -41,11 +41,18 @@ const ShotLayer: React.FC<{shot: Shot; durationInFrames: number}> = ({shot, dura
     ...clamp,
     easing: Easing.inOut(Easing.sin),
   });
-  const opacity = interpolate(frame, [0, SHOT_CROSSFADE], [0, 1], clamp);
+  // Transition « cross-zoom » : le plan entrant arrive zoomé et flou.
+  const t = interpolate(frame, [0, SHOT_CROSSFADE], [0, 1], {...clamp, easing: easeOutExpo});
+  const opacity = interpolate(frame, [0, SHOT_CROSSFADE * 0.6], [0, 1], clamp);
 
   return (
     <AbsoluteFill style={{opacity, overflow: 'hidden'}}>
-      <AbsoluteFill style={{transform: cameraTransform(shot.camera, p)}}>
+      <AbsoluteFill
+        style={{
+          transform: `scale(${1 + 0.18 * (1 - t)}) ${cameraTransform(shot.camera, p)}`,
+          filter: t < 1 ? `blur(${(1 - t) * 14}px)` : undefined,
+        }}
+      >
         {shot.media === null ? (
           <Placeholder shot={shot} />
         ) : shot.media.type === 'image' ? (

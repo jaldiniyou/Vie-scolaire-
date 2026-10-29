@@ -31,7 +31,9 @@ src/
     Overlays.tsx         étalonnage, chip « À domicile », mots-clés, titres
     BrandEndCard.tsx     appel à l'action final (logo, slogan, tutingo.com)
     Brand.tsx            logo officiel, badge, transition lumineuse, pictogramme de localisation
-    Subtitle.tsx         sous-titres mot par mot (zone sûre mobile)
+    Motion.tsx           boîte à outils motion design : anneaux, étincelles, formes flottantes,
+                         tracés, masques, grain, curseur, transitions (iris, bandes)
+    Subtitle.tsx         sous-titres karaoké mot par mot, arabe (RTL) ou latin
   data/
     config.ts            couleurs, format, audio, textes de marque, options
     scenes.ts            storyboard : timings, plans, médias, prompts Higgsfield
@@ -39,8 +41,31 @@ src/
 public/
   audio/tutingo-voiceover.wav
   images/tutingo-logo.png   logo officiel fourni
-  fonts/Poppins-*.woff2     police embarquée (SIL OFL, voir OFL.txt)
+  fonts/Poppins-*.woff2     police latine embarquée (SIL OFL, voir OFL.txt)
+  fonts/Cairo-arabic.woff2  police arabe embarquée (SIL OFL, voir OFL-Cairo.txt)
 ```
+
+## Écriture des sous-titres : arabe ou latin
+
+Les sous-titres et les textes en darija à l'écran sont en **lettres arabes** par défaut (`SCRIPT = 'arabic'` dans `config.ts`).
+Mettez `SCRIPT = 'latin'` pour revenir à l'arabizi.
+Chaque réplique de `subtitles.ts` a les deux versions (`ar` et `text`).
+Les mots prononcés en français (vérifiés, qualité, TutinGo.com) restent en lettres latines.
+Le slogan officiel, le site et les mots-clés de la scène 4 restent en français.
+
+## Motion design
+
+| Moment | Effet |
+|---|---|
+| Scène 1 | Mots-clés géants (عيانين… / دروسهم؟ / الوقت؟) révélés par masque, soulignés au pinceau, horloge qui se vide |
+| 1 → 2 | Iris en 3 disques (lavande, violet, blanc) |
+| Scène 2 | Épingle TutinGo qui tombe avec onde de choc, smartphone en 3D, bulles de matières flottantes, doigt qui choisit un prof |
+| 2 → 3, 5 → 6 | Bandes diagonales aux couleurs de la marque |
+| Scène 3 | Trajet pointillé qui se trace jusqu'à la maison, épingle qui rebondit, chip « À domicile » |
+| Scène 4 | Pastilles qui arrivent en rotation, pictogrammes tracés, étincelles, barre de progression |
+| Scène 5 | Titres révélés par masque (de droite à gauche en arabe) |
+| Scène 6 | Horloge et secousse sur « ما تضيعوش الوقت! », logo révélé en iris depuis l'épingle, slogan qui monte hors d'un masque, reflet et clic sur tutingo.com |
+| Partout | Changement de plan en cross-zoom flou, pictogrammes des placeholders qui se dessinent, formes flottantes, sous-titres karaoké, grain filmique (`GRAIN_OPACITY`) |
 
 ## Découpage temporel (calé sur les pauses mesurées dans l'audio)
 

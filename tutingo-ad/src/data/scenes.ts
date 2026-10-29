@@ -204,11 +204,24 @@ export const QUALITY_KEYWORDS = [
   {text: 'Progresser', at: 21.6},
 ];
 
+// Textes darija à l'écran : `ar` (lettres arabes) et `latin` (arabizi),
+// choisis selon config.SCRIPT.
+
 // Titres de la scène 5.
 export const PARENTS_TITLES = [
-  {text: 'Ntomma rkzo 3la khedmtkom', start: 22.6, end: 26.25},
-  {text: "L'accompagnement li kaynasb wlidatkom", start: 26.35, end: 29.38},
+  {ar: 'نتوما ركزو على خدمتكم', latin: 'Ntomma rkzo 3la khedmtkom', start: 22.6, end: 26.25},
+  {ar: 'المواكبة اللي كتناسب وليداتكم', latin: "L'accompagnement li kaynasb wlidatkom", start: 26.35, end: 29.38},
 ];
+
+// Typographie cinétique de la scène 1 (mots-clés en grand, en haut d'écran).
+export const PROBLEM_ACCENTS = [
+  {ar: 'عيانين…', latin: '3yaneen…', start: 1.6, end: 3.35, icon: 'none' as const},
+  {ar: 'دروسهم؟', latin: 'doross-hom ?', start: 4.75, end: 6.5, icon: 'question' as const},
+  {ar: 'الوقت؟', latin: 'lwa9t ?', start: 7.95, end: 9.55, icon: 'clock' as const},
+];
+
+// Grand titre « urgence » de la carte de fin.
+export const URGENCY_TEXT = {ar: 'ما تضيعوش الوقت!', latin: 'Ma tdi3och lwe9t !'};
 
 // Profils de démonstration affichés dans le smartphone (scène 2).
 // Données fictives d'interface : aucune note, aucun avis, aucune certification.

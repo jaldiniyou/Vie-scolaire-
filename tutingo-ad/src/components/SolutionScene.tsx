@@ -3,16 +3,25 @@ import {AbsoluteFill, Easing, Img, interpolate, spring, staticFile, useCurrentFr
 import {BRAND, COLORS} from '../data/config';
 import {DEMO_TEACHERS} from '../data/scenes';
 import {Pin} from './Brand';
+import {BurstRings, FloatingShapes, Sparkles, TapCursor} from './Motion';
 import {clamp, fontFamily} from './utils';
 
 // Scène 2 : univers lumineux violet/blanc + smartphone avec recherche de
 // professeurs. Les temps (`at`) sont en secondes RELATIVES au début de scène.
 const T = {
+  pin: 0.05, // « M3a TutinGo »
   phoneIn: 0.1,
   typing: [1.2, 2.6] as const, // pendant « l7ell wlla sahal ! »
   cards: 2.8, // « Kanwafro likom asatida mkhtarin »
   select: 5.0, // « w vérifiés »
 };
+
+const SUBJECT_BUBBLES = [
+  {label: 'Maths', x: 30, y: 560, color: '#6531DC'},
+  {label: 'Français', x: 790, y: 440, color: '#F2A65A'},
+  {label: 'Physique', x: 40, y: 930, color: '#22B07D'},
+  {label: 'Anglais', x: 800, y: 1040, color: '#E0457B'},
+];
 
 const SEARCH_TEXT = 'Mathématiques · Casablanca';
 
@@ -82,6 +91,10 @@ export const SolutionScene: React.FC<{durationInFrames: number}> = ({durationInF
     easing: Easing.in(Easing.cubic),
   });
   const floatY = Math.sin(frame / 28) * 8;
+  // Arrivée en 3D : le téléphone pivote puis se pose face caméra.
+  const rotY = interpolate(phone, [0, 1], [38, -4]) + Math.sin(frame / 40) * 3;
+  const rotX = interpolate(phone, [0, 1], [18, 4]);
+  const pinDrop = spring({frame: frame - s(T.pin), fps, config: {damping: 9, stiffness: 150}});
 
   return (
     <AbsoluteFill
@@ -94,7 +107,9 @@ export const SolutionScene: React.FC<{durationInFrames: number}> = ({durationInF
       <div style={{position: 'absolute', width: 700, height: 700, borderRadius: '50%', left: -260, top: 1080, background: COLORS.violet, opacity: 0.25, filter: 'blur(120px)'}} />
       <div style={{position: 'absolute', width: 600, height: 600, borderRadius: '50%', right: -240, top: 160, background: COLORS.violetPin, opacity: 0.2, filter: 'blur(120px)'}} />
 
-      <AbsoluteFill style={{alignItems: 'center', top: 250}}>
+      <FloatingShapes seed="solution" colors={[COLORS.violet, COLORS.lavender, COLORS.violetPin]} opacity={0.45} delay={6} />
+
+      <AbsoluteFill style={{alignItems: 'center', top: 250, perspective: 1800}}>
         <div
           style={{
             width: PHONE_W,
@@ -103,7 +118,7 @@ export const SolutionScene: React.FC<{durationInFrames: number}> = ({durationInF
             background: COLORS.ink,
             padding: 16,
             boxShadow: '0 50px 120px rgba(60, 20, 150, 0.45)',
-            transform: `translateY(${(1 - phone) * 900 + floatY}px) rotate(${(1 - phone) * 8}deg) scale(${outZoom})`,
+            transform: `translateY(${(1 - phone) * 900 + floatY}px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${outZoom})`,
           }}
         >
           <div
@@ -185,6 +200,55 @@ export const SolutionScene: React.FC<{durationInFrames: number}> = ({durationInF
           </div>
         </div>
       </AbsoluteFill>
+
+      {/* bulles de matières flottantes */}
+      {SUBJECT_BUBBLES.map((b, i) => {
+        const e = spring({frame: frame - s(T.cards) - 8 - i * 5, fps, config: {damping: 10, stiffness: 140}});
+        return (
+          <div
+            key={b.label}
+            style={{
+              position: 'absolute',
+              left: b.x,
+              top: b.y + Math.sin((frame + i * 25) / 22) * 14,
+              opacity: e,
+              transform: `scale(${e * outZoom}) rotate(${Math.sin((frame + i * 30) / 30) * 4}deg)`,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '14px 26px',
+              borderRadius: 999,
+              background: COLORS.white,
+              boxShadow: '0 16px 40px rgba(74,31,176,0.3)',
+              fontSize: 32,
+              fontWeight: 700,
+              color: COLORS.ink,
+            }}
+          >
+            <span style={{width: 18, height: 18, borderRadius: '50%', background: b.color}} />
+            {b.label}
+          </div>
+        );
+      })}
+
+      {/* épingle TutinGo qui tombe au moment de « M3a TutinGo » */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 540 - 48,
+          top: 92 + (1 - pinDrop) * -400,
+          transform: `scaleY(${0.8 + 0.2 * pinDrop})`,
+          transformOrigin: 'bottom',
+          filter: 'drop-shadow(0 16px 18px rgba(74,31,176,0.4))',
+        }}
+      >
+        <Pin size={96} />
+      </div>
+      <BurstRings at={s(T.pin) + 8} x={540} y={200} color={COLORS.violetPin} maxRadius={360} />
+      <Sparkles at={s(T.pin) + 8} x={540} y={170} color={COLORS.violet} seed="pin" spread={240} />
+
+      {/* le doigt choisit le premier professeur */}
+      <TapCursor from={{x: 900, y: 1250}} to={{x: 560, y: 720}} moveAt={s(T.select) - 16} tapAt={s(T.select)} hideAt={durationInFrames - 10} />
     </AbsoluteFill>
   );
 };
